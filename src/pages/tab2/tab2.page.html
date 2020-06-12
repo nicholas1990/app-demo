@@ -1,17 +1,138 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
+  <ion-toolbar color="primary">
     <ion-title>
-      Tab 2
+      Nuova verifica 
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 2</ion-title>
-    </ion-toolbar>
-  </ion-header>
+
+  <mat-vertical-stepper [linear]="isLinear" #stepper>
+    <mat-step [stepControl]="firstFormGroup">
+      <form [formGroup]="firstFormGroup">
+        <ng-template matStepLabel>Dati relativi l'impianto</ng-template>
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              <mat-form-field>
+                <mat-label>Codice Impianto</mat-label>
+                <input matInput formControlName="codice" placeholder="Example: MWZYC" required>
+              </mat-form-field>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <mat-form-field>
+                <mat-label>Tipologia Impianto</mat-label>
+                <input matInput formControlName="tipologia" placeholder="Ex. a, b, ..." required>
+              </mat-form-field>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <mat-form-field>
+                <mat-label>Responsabile</mat-label>
+                <input matInput formControlName="responsabile" placeholder="Nome, cognome" required>
+              </mat-form-field>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <button mat-raised-button (click)="setCurrentLocation()" >Localization</button>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <button mat-raised-button (click)="setPhoto()" >Photo</button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+        <p>
+          Form Status: {{ firstFormGroup.status }}
+        </p>
+        <div>
+          <button mat-button matStepperNext>Next</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step [stepControl]="secondFormGroup">
+      <form [formGroup]="secondFormGroup">
+        <ng-template matStepLabel>Effettua Verifica</ng-template>
+        <mat-form-field>
+          <mat-label>Input a caso (senza grid)</mat-label>
+          <input matInput formControlName="ctrl1" placeholder="Ex. Main, Log, N, ..." required>
+        </mat-form-field>
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              <mat-form-field>
+                <mat-label>Input a caso</mat-label>
+                <input matInput formControlName="ctrl2" placeholder="Ex. ìììì">
+              </mat-form-field>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <section class="radio-section">
+                <mat-form-field>
+                  <label class="radio-margin">Align 2015:</label>
+                  <mat-radio-group formControlName="radio1">
+                    <mat-radio-button class="radio-margin" value="after">After</mat-radio-button>
+                    <mat-radio-button class="radio-margin" value="before">Before</mat-radio-button>
+                  </mat-radio-group>
+                </mat-form-field>
+              </section>          
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Done</ng-template>
+      <p>You are now done.</p>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button (click)="stepper.reset()">Reset</button>
+      </div>
+    </mat-step>
+  </mat-vertical-stepper>
+  
+  <!-- <ion-grid>
+
+    <ion-row>
+      <ion-col>
+        
+        <div class="first-container">
+          <mat-form-field>
+            <mat-label>Input</mat-label>
+            <input matInput>
+          </mat-form-field>
+        </div>
+
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col>
+        ion-col 2
+      </ion-col>
+    </ion-row>
+
+  </ion-grid> -->
+
+  <!-- <mat-form-field>
+    <mat-label>Ionites</mat-label>
+    <mat-select [(ngModel)]="ionite" name="ionite">
+      <mat-option value="Simon">Simon</mat-option>
+      <mat-option value="Max">Max</mat-option>
+      <mat-option value="Ben">Ben</mat-option>
+    </mat-select>
+  </mat-form-field> -->
 
   <!-- <app-explore-container name="Tab 2 page"></app-explore-container> -->
 </ion-content>

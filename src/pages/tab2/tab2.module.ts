@@ -1,20 +1,24 @@
-import { IonicModule } from '@ionic/angular';
-import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { Tab2Page } from './tab2.page';
-// import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { IonicModule } from '@ionic/angular';
 
 import { Tab2PageRoutingModule } from './tab2-routing.module';
+import { Tab2Page } from './tab2.page';
+
+import { MaterialModule } from './material.module';
 
 @NgModule({
   imports: [
     IonicModule,
     CommonModule,
+
+    Tab2PageRoutingModule,
+
+    MaterialModule,
+
     FormsModule,
-    // ExploreContainerComponentModule,
-    Tab2PageRoutingModule
+    ReactiveFormsModule,
   ],
   declarations: [Tab2Page]
 })

@@ -75,14 +75,12 @@
           <ion-row>
             <ion-col>
               <section class="radio-section">
-                <mat-form-field>
-                  <label class="radio-margin">Align 2015:</label>
-                  <mat-radio-group formControlName="radio1">
-                    <mat-radio-button class="radio-margin" value="after">After</mat-radio-button>
-                    <mat-radio-button class="radio-margin" value="before">Before</mat-radio-button>
-                  </mat-radio-group>
-                </mat-form-field>
-              </section>          
+                <label class="radio-margin">Align 2015:</label>
+                <mat-radio-group formControlName="radio1">
+                  <mat-radio-button class="radio-margin" value="after">After</mat-radio-button>
+                  <mat-radio-button class="radio-margin" value="before">Before</mat-radio-button>
+                </mat-radio-group>
+              </section>
             </ion-col>
           </ion-row>
         </ion-grid>
@@ -96,43 +94,11 @@
       <ng-template matStepLabel>Done</ng-template>
       <p>You are now done.</p>
       <div>
+        <button mat-raised-button (click)="onSubmit()">Submit</button>
         <button mat-button matStepperPrevious>Back</button>
         <button mat-button (click)="stepper.reset()">Reset</button>
       </div>
     </mat-step>
   </mat-vertical-stepper>
   
-  <!-- <ion-grid>
-
-    <ion-row>
-      <ion-col>
-        
-        <div class="first-container">
-          <mat-form-field>
-            <mat-label>Input</mat-label>
-            <input matInput>
-          </mat-form-field>
-        </div>
-
-      </ion-col>
-    </ion-row>
-
-    <ion-row>
-      <ion-col>
-        ion-col 2
-      </ion-col>
-    </ion-row>
-
-  </ion-grid> -->
-
-  <!-- <mat-form-field>
-    <mat-label>Ionites</mat-label>
-    <mat-select [(ngModel)]="ionite" name="ionite">
-      <mat-option value="Simon">Simon</mat-option>
-      <mat-option value="Max">Max</mat-option>
-      <mat-option value="Ben">Ben</mat-option>
-    </mat-select>
-  </mat-form-field> -->
-
-  <!-- <app-explore-container name="Tab 2 page"></app-explore-container> -->
 </ion-content>

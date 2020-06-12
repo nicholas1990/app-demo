@@ -29,7 +29,7 @@ export class Tab2Page implements OnInit {
     this.secondFormGroup = this.fb.group({
       ctrl1: ['', Validators.required],
       ctrl2: [''],
-      radio1: []
+      radio1: [null]
     });
 
     this.firstFormGroup.valueChanges.subscribe(v => {
@@ -51,6 +51,21 @@ export class Tab2Page implements OnInit {
 
   setPhoto() {
     this.firstFormGroup.patchValue({ photo: true });
+  }
+
+  onSubmit() {
+    if ( this.firstFormGroup.valid && this.secondFormGroup.valid ) {
+      const obj = {
+        firstGroup: this.firstFormGroup.value,
+        secondGroup: this.secondFormGroup.value
+      };
+
+      if (window.localStorage.getItem('impianti') === null) {
+        window.localStorage.setItem('impianti', JSON.stringify([obj]));
+      } else {
+        window.localStorage.setItem('impianti', JSON.stringify([...JSON.parse(window.localStorage.getItem('impianti')), obj]));
+      }
+    }
   }
 
 }

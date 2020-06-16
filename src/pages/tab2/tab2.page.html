@@ -15,7 +15,7 @@
     <!-- <form id="regForm" [formGroup]="registrationForm"> -->
   <mat-vertical-stepper #stepper [linear]="isLinear">
     <mat-step [stepControl]="firstFormGroup">
-      <form id="regForm" [formGroup]="firstFormGroup">
+      <form [formGroup]="firstFormGroup">
       <!-- OLD <form [formGroup]="firstFormGroup"> -->
         <ng-template matStepLabel>Dati relativi l'impianto</ng-template>
         <ion-grid>
@@ -31,7 +31,59 @@
             <ion-col>
               <mat-form-field>
                 <mat-label>Tipologia Impianto</mat-label>
-                <input matInput formControlName="tipologia" placeholder="Ex. a, b, ..." required>
+                <mat-select formControlName="tipologia">
+                  <mat-option *ngFor="let tipologia of tipologie" [value]="tipologia.value">
+                    {{tipologia.viewValue}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <button mat-raised-button (click)="setCurrentLocation()">Località</button>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <section class="radio-section">
+                <label class="radio-margin">Destinazione d'uso:</label>
+                <mat-radio-group formControlName="destinazione">
+                  <mat-radio-button class="radio-margin" value="abitativo">Abitativo</mat-radio-button>
+                  <mat-radio-button class="radio-margin" value="altro">Altro</mat-radio-button>
+                </mat-radio-group>
+              </section>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <mat-form-field>
+                <mat-label>Combustibile</mat-label>
+                <mat-select formControlName="combustibile">
+                  <mat-option *ngFor="let combustibile of combustibili" [value]="combustibile.value">
+                    {{combustibile.viewValue}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <mat-form-field>
+                <mat-label>Categoria</mat-label>
+                <mat-select formControlName="categoria">
+                  <mat-option *ngFor="let categoria of categorie" [value]="categoria.value">
+                    {{categoria.viewValue}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <mat-form-field>
+                <mat-label>Volumetria riscaldata m3:</mat-label>
+                <input matInput formControlName="volumetria" placeholder="Non saprei">
               </mat-form-field>
             </ion-col>
           </ion-row>
@@ -45,18 +97,21 @@
           </ion-row>
           <ion-row>
             <ion-col>
-              <button mat-raised-button (click)="setCurrentLocation()" >Localization</button>
+              <button mat-raised-button (click)="setPhoto()" >Photo</button>
             </ion-col>
           </ion-row>
           <ion-row>
             <ion-col>
-              <button mat-raised-button (click)="setPhoto()" >Photo</button>
+              <mat-form-field appearance="fill">
+                <mat-label>Note</mat-label>
+                <textarea matInput></textarea>
+              </mat-form-field>
             </ion-col>
           </ion-row>
         </ion-grid>
-        <p>
+        <!-- <p>
           Form Status: {{ firstFormGroup.status }}
-        </p>
+        </p> -->
         <div>
           <button mat-button matStepperNext>Next</button>
         </div>
@@ -64,29 +119,92 @@
     </mat-step>
     <mat-step [stepControl]="secondFormGroup">
       <form [formGroup]="secondFormGroup">
-        <ng-template matStepLabel>Effettua Verifica</ng-template>
-        <mat-form-field>
-          <mat-label>Input a caso (senza grid)</mat-label>
-          <input matInput formControlName="ctrl1" placeholder="Ex. Main, Log, N, ..." required>
-        </mat-form-field>
         <ion-grid>
           <ion-row>
             <ion-col>
+              <ng-template matStepLabel>Effettua Verifica</ng-template>
               <mat-form-field>
-                <mat-label>Input a caso</mat-label>
-                <input matInput formControlName="ctrl2" placeholder="Ex. ìììì">
+                <mat-label>Costruttore (senza grid)</mat-label>
+                <input matInput formControlName="costruttore" placeholder="Ex. Main, Log, N, ..." required>
               </mat-form-field>
             </ion-col>
           </ion-row>
           <ion-row>
             <ion-col>
               <section class="radio-section">
-                <label class="radio-margin">Align 2015:</label>
-                <mat-radio-group formControlName="radio1">
-                  <mat-radio-button class="radio-margin" value="after">After</mat-radio-button>
-                  <mat-radio-button class="radio-margin" value="before">Before</mat-radio-button>
+                <label class="radio-margin">Tiraggio:</label>
+                <mat-radio-group formControlName="tiraggio">
+                  <mat-radio-button class="radio-margin" value="forzato">Forzato</mat-radio-button>
+                  <mat-radio-button class="radio-margin" value="naturale">Naturale</mat-radio-button>
                 </mat-radio-group>
               </section>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <mat-form-field>
+                <mat-label>Destinazione d'uso generatore:</mat-label>
+                <input matInput formControlName="destGeneratore">
+              </mat-form-field>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <mat-form-field>
+                <mat-label>Prot.Foc.Nom:</mat-label>
+                <input matInput formControlName="prot">
+              </mat-form-field>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <mat-form-field>
+                <mat-label>Modello:</mat-label>
+                <input matInput formControlName="modello">
+              </mat-form-field>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <section class="radio-section">
+                <label class="radio-margin">Tipo:</label>
+                <mat-radio-group formControlName="tipo">
+                  <mat-radio-button class="radio-margin" value="aperto">Aperto</mat-radio-button>
+                  <mat-radio-button class="radio-margin" value="chiuso">Chiuso</mat-radio-button>
+                </mat-radio-group>
+              </section>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <mat-form-field>
+                <mat-label>Fascia di potenza:</mat-label>
+                <mat-select formControlName="fascia">
+                  <mat-option *ngFor="let fascia of fascie" [value]="fascia.value">
+                    {{fascia.viewValue}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <mat-form-field>
+                <mat-label>Matricola:</mat-label>
+                <input matInput formControlName="matricola">
+              </mat-form-field>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <mat-form-field>
+                <mat-label>Scarico fumi:</mat-label>
+                <mat-select formControlName="scarico">
+                  <mat-option *ngFor="let scarico of scarichi" [value]="scarico.value">
+                    {{scarico.viewValue}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
             </ion-col>
           </ion-row>
         </ion-grid>

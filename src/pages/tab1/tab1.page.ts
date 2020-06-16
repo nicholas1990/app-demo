@@ -1,12 +1,21 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
-export class Actor {
-  constructor(
-    public id: number,
-    public firstName: string,
-    public lastName: string,
-    public success: boolean
-  ) {}
+export interface Impianto {
+  firstGroup: {
+    codice: string,
+    tipologia: string,
+    responsabile: string,
+    address: {
+      latitude: string,
+      longitude: string
+    },
+    photo: boolean
+  };
+  secondGroup: {
+    ctrl1: string,
+    ctrl2: string,
+    radio1: string
+  };
 }
 
 @Component({
@@ -16,18 +25,12 @@ export class Actor {
 })
 export class Tab1Page {
 
-  bondActors: Actor[];
+  impianti: Impianto[];
 
-  constructor() {
-    this.bondActors = [
-      new Actor(1, 'Sean', 'Connery', true),
-      new Actor(2, 'David', 'Niven', true),
-      new Actor(3, 'George', 'Lazenby', true),
-      new Actor(4, 'Roger', 'Moore', false),
-      new Actor(5, 'Timothy', 'Dalton', true),
-      new Actor(6, 'Pierce', 'Brosnan', false),
-      new Actor(7, 'Daniel', 'Craig', true)
-    ];
+  constructor() { }
+
+  ionViewWillEnter() {
+    this.impianti = [...JSON.parse(window.localStorage.getItem('impianti'))];
   }
 
   trackById(index: number, data: any): number {

@@ -1,4 +1,11 @@
+<<<<<<< Updated upstream
 import { Component } from '@angular/core';
+=======
+import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { NavController } from '@ionic/angular';
+>>>>>>> Stashed changes
 
 @Component({
   selector: 'app-tab2',
@@ -7,6 +14,69 @@ import { Component } from '@angular/core';
 })
 export class Tab2Page {
 
+<<<<<<< Updated upstream
   constructor() {}
+=======
+  isLinear = true;
+  firstFormGroup: FormGroup;
+  secondFormGroup: FormGroup;
+
+  labelRadioPosition: 'before' | 'after';
+
+  // address: {latitude: number, longitude: number};
+
+  constructor(private readonly fb: FormBuilder, private readonly router: Router, private navController: NavController) {}
+
+  ngOnInit() {
+    this.firstFormGroup = this.fb.group({
+      codice: ['', Validators.required],
+      tipologia: ['', Validators.required],
+      responsabile: ['', Validators.required],
+      address: [null, Validators.required],
+      photo: [null, Validators.required]
+    });
+    this.secondFormGroup = this.fb.group({
+      ctrl1: ['', Validators.required],
+      ctrl2: [''],
+      radio1: [null]
+    });
+
+    this.firstFormGroup.valueChanges.subscribe(v => {
+      console.log('value:', v);
+    });
+
+  }
+
+  // Get Current Location Coordinates
+  setCurrentLocation() {
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+        this.firstFormGroup.patchValue({ address: { latitude, longitude }, options: { emitEvent: false } });
+      });
+    }
+  }
+
+  setPhoto() {
+    this.firstFormGroup.patchValue({ photo: true });
+  }
+
+  onSubmit() {
+    if ( this.firstFormGroup.valid && this.secondFormGroup.valid ) {
+      const obj = {
+        firstGroup: this.firstFormGroup.value,
+        secondGroup: this.secondFormGroup.value
+      };
+
+      if (window.localStorage.getItem('impianti') === null) {
+        window.localStorage.setItem('impianti', JSON.stringify([obj]));
+      } else {
+        window.localStorage.setItem('impianti', JSON.stringify([...JSON.parse(window.localStorage.getItem('impianti')), obj]));
+      }
+      this.router.navigateByUrl('tabs/tab1');
+    }
+  }
+>>>>>>> Stashed changes
 
 }

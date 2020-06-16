@@ -26,10 +26,10 @@ export class AuthService {
     });
   }
 
-  login() {
+  login(username: string, password: string) {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        this.storage.set(TOKEN_KEY, 'Bearer 1234567').then(() => {
+        this.storage.set(TOKEN_KEY, 'Bearer Token 1234567').then(() => {
           this.authenticationState.next(true);
         });
         resolve({status: 'success'}); // È andato tutto perfettamente!

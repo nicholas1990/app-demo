@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthService } from './services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -17,6 +18,7 @@ export class LoginPage implements OnInit {
   constructor(
     private readonly fb: FormBuilder,
     private readonly router: Router,
+    private readonly authService: AuthService
   ) {}
 
   ngOnInit() {
@@ -26,19 +28,21 @@ export class LoginPage implements OnInit {
     });
 
     // await this.authService.checkAuthenticated()
-    // if (true) {
-    //   await this.router.navigate(['tabs/tab1']);
-    // }
+    // this.authService.checkAuthenticated()
+    if (this.authService.isAuthenticated) {
+      debugger;
+      // await this.router.navigate(['tabs/tab1']);
+    }
   }
 
   async onSubmit() {
     this.loginInvalid = false;
     this.formSubmitAttempt = false;
-    if (this.form.valid) {  // ok
+
+    if ( this.form.valid ) {  // ok
       try {
-        const username = this.form.get('username').value;
+        const username = this.form.get('username').value;  // OR this.form.controls.username.value
         const password = this.form.get('password').value;
-        debugger;
         await this.authService.login(username, password);
       }
       catch (err) {

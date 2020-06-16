@@ -1,0 +1,24 @@
+// .radio-section {
+//     display: flex;
+//     align-content: center;
+//     align-items: center;
+//     height: 60px;
+// }
+  
+// .radio-margin {
+//     margin: 0 10px;
+// }
+
+
+/** 
+ * Rendere riutilizzabile
+ */
+mat-card {
+    max-width: 400px;  // percentage
+    margin: 2em auto;
+    text-align: center;
+}
+
+mat-form-field {
+    display: block;
+}

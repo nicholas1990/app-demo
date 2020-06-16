@@ -11,9 +11,9 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 })
 export class AppComponent {
   constructor(
-    private platform: Platform,
-    private splashScreen: SplashScreen,
-    private statusBar: StatusBar
+    private readonly platform: Platform,
+    private readonly splashScreen: SplashScreen,
+    private readonly statusBar: StatusBar
   ) {
     this.initializeApp();
   }
@@ -22,6 +22,14 @@ export class AppComponent {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+
+      // this.authenticationService.authenticationState.subscribe(state => {
+      //   if (state) {
+      //     this.router.navigate(['tabs', 'dashboard']);
+      //   } else {
+      //     this.router.navigate(['login']);
+      //   }
+      // });
     });
   }
 }

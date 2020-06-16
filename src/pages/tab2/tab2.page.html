@@ -12,9 +12,10 @@
 
 <ion-content [fullscreen]="true">
   <!-- NEW <form id="regForm" [formGroup]="registrationForm"> -->
-    <form id="regForm" [formGroup]="registrationForm">
+    <!-- <form id="regForm" [formGroup]="registrationForm"> -->
   <mat-vertical-stepper #stepper [linear]="isLinear">
     <mat-step [stepControl]="firstFormGroup">
+      <form id="regForm" [formGroup]="firstFormGroup">
       <!-- OLD <form [formGroup]="firstFormGroup"> -->
         <ng-template matStepLabel>Dati relativi l'impianto</ng-template>
         <ion-grid>

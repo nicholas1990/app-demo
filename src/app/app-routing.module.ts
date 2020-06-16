@@ -6,15 +6,20 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 //   pathMatch: 'full'
 // },
 
-// EDIT WITH FALSE LOGIN
 const routes: Routes = [
-  // {
-  //   path: '',  // tabs
-  //   loadChildren: () => import('../pages/tabs/tabs.module').then( m => m.TabsPageModule)
-  // },
   {
     path: 'login',
     loadChildren: () => import('../pages/login/login.module').then(m => m.LoginPageModule)
+  },
+  {
+    path: 'tabs',
+    loadChildren: () => import('../pages/tabs/tabs.module').then( m => m.TabsPageModule)
+    // TODO: AuthGuard
+  },
+  {
+    path: '',
+    loadChildren: () => import('../pages/tabs/tabs.module').then( m => m.TabsPageModule)
+    // TODO: AuthGuard
   },
   {
     path: '',

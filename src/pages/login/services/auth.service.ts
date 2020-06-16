@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Platform } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 import { BehaviorSubject } from 'rxjs';
 
@@ -12,19 +11,20 @@ export class AuthService {
 
   authenticationState = new BehaviorSubject(false);
 
-  constructor(private storage: Storage, private plt: Platform) {
-    this.plt.ready().then(() => {
-      this.checkToken();
-    });
+  // , private plt: Platform
+  constructor(private storage: Storage) {
+    // this.plt.ready().then(() => {
+    //   this.checkToken();
+    // });
   }
 
-  private checkToken() {
-    this.storage.get(TOKEN_KEY).then((res: string) => {
-      if (res) {
-        this.authenticationState.next(true);
-      }
-    });
-  }
+  // private checkToken() {
+  //   this.storage.get(TOKEN_KEY).then((res: string) => {
+  //     if (res) {
+  //       this.authenticationState.next(true);
+  //     }
+  //   });
+  // }
 
   login(username: string, password: string) {
     return new Promise((resolve, reject) => {
@@ -43,11 +43,12 @@ export class AuthService {
         this.storage.remove(TOKEN_KEY).then(() => {
           this.authenticationState.next(false);
         });
-        resolve({status: 'success'}); // È andato tutto perfettamente!
+        resolve({status: 'success'});
       }, 500);
     });
   }
 
+  // Non usato al momento
   isAuthenticated() {
     return this.authenticationState.value;
   }

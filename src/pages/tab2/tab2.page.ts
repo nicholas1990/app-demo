@@ -1,22 +1,15 @@
-<<<<<<< Updated upstream
-import { Component } from '@angular/core';
-=======
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
->>>>>>> Stashed changes
 
 @Component({
   selector: 'app-tab2',
   templateUrl: 'tab2.page.html',
   styleUrls: ['tab2.page.scss']
 })
-export class Tab2Page {
+export class Tab2Page implements OnInit {
 
-<<<<<<< Updated upstream
-  constructor() {}
-=======
   isLinear = true;
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
@@ -27,7 +20,7 @@ export class Tab2Page {
 
   constructor(private readonly fb: FormBuilder, private readonly router: Router, private navController: NavController) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.firstFormGroup = this.fb.group({
       codice: ['', Validators.required],
       tipologia: ['', Validators.required],
@@ -77,6 +70,5 @@ export class Tab2Page {
       this.router.navigateByUrl('tabs/tab1');
     }
   }
->>>>>>> Stashed changes
 
 }

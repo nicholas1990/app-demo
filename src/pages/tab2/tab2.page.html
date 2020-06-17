@@ -6,13 +6,6 @@
   </ion-toolbar>
 </ion-header>
 
-<<<<<<< HEAD
-<ion-content [fullscreen]="true">
-
-  <mat-vertical-stepper [linear]="isLinear" #stepper>
-    <mat-step [stepControl]="firstFormGroup">
-      <form [formGroup]="firstFormGroup">
-=======
 <!-- 
   form: registrationForm
  -->
@@ -24,7 +17,6 @@
     <mat-step [stepControl]="firstFormGroup">
       <form [formGroup]="firstFormGroup">
       <!-- OLD <form [formGroup]="firstFormGroup"> -->
->>>>>>> features/login
         <ng-template matStepLabel>Dati relativi l'impianto</ng-template>
         <ion-grid>
           <ion-row>
@@ -39,9 +31,6 @@
             <ion-col>
               <mat-form-field>
                 <mat-label>Tipologia Impianto</mat-label>
-<<<<<<< HEAD
-                <input matInput formControlName="tipologia" placeholder="Ex. a, b, ..." required>
-=======
                 <mat-select formControlName="tipologia">
                   <mat-option *ngFor="let tipologia of tipologie" [value]="tipologia.value">
                     {{tipologia.viewValue}}
@@ -95,7 +84,6 @@
               <mat-form-field>
                 <mat-label>Volumetria riscaldata m3:</mat-label>
                 <input matInput formControlName="volumetria" placeholder="Non saprei">
->>>>>>> features/login
               </mat-form-field>
             </ion-col>
           </ion-row>
@@ -109,24 +97,11 @@
           </ion-row>
           <ion-row>
             <ion-col>
-<<<<<<< HEAD
-              <button mat-raised-button (click)="setCurrentLocation()" >Localization</button>
-=======
               <button mat-raised-button (click)="setPhoto()" >Photo</button>
->>>>>>> features/login
             </ion-col>
           </ion-row>
           <ion-row>
             <ion-col>
-<<<<<<< HEAD
-              <button mat-raised-button (click)="setPhoto()" >Photo</button>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-        <p>
-          Form Status: {{ firstFormGroup.status }}
-        </p>
-=======
               <mat-form-field appearance="fill">
                 <mat-label>Note</mat-label>
                 <textarea matInput></textarea>
@@ -137,7 +112,6 @@
         <!-- <p>
           Form Status: {{ firstFormGroup.status }}
         </p> -->
->>>>>>> features/login
         <div>
           <button mat-button matStepperNext>Next</button>
         </div>
@@ -145,19 +119,6 @@
     </mat-step>
     <mat-step [stepControl]="secondFormGroup">
       <form [formGroup]="secondFormGroup">
-<<<<<<< HEAD
-        <ng-template matStepLabel>Effettua Verifica</ng-template>
-        <mat-form-field>
-          <mat-label>Input a caso (senza grid)</mat-label>
-          <input matInput formControlName="ctrl1" placeholder="Ex. Main, Log, N, ..." required>
-        </mat-form-field>
-        <ion-grid>
-          <ion-row>
-            <ion-col>
-              <mat-form-field>
-                <mat-label>Input a caso</mat-label>
-                <input matInput formControlName="ctrl2" placeholder="Ex. ìììì">
-=======
         <ion-grid>
           <ion-row>
             <ion-col>
@@ -165,30 +126,20 @@
               <mat-form-field>
                 <mat-label>Costruttore (senza grid)</mat-label>
                 <input matInput formControlName="costruttore" placeholder="Ex. Main, Log, N, ..." required>
->>>>>>> features/login
               </mat-form-field>
             </ion-col>
           </ion-row>
           <ion-row>
             <ion-col>
               <section class="radio-section">
-<<<<<<< HEAD
-                <label class="radio-margin">Align 2015:</label>
-                <mat-radio-group formControlName="radio1">
-                  <mat-radio-button class="radio-margin" value="after">After</mat-radio-button>
-                  <mat-radio-button class="radio-margin" value="before">Before</mat-radio-button>
-=======
                 <label class="radio-margin">Tiraggio:</label>
                 <mat-radio-group formControlName="tiraggio">
                   <mat-radio-button class="radio-margin" value="forzato">Forzato</mat-radio-button>
                   <mat-radio-button class="radio-margin" value="naturale">Naturale</mat-radio-button>
->>>>>>> features/login
                 </mat-radio-group>
               </section>
             </ion-col>
           </ion-row>
-<<<<<<< HEAD
-=======
           <ion-row>
             <ion-col>
               <mat-form-field>
@@ -256,7 +207,6 @@
               </mat-form-field>
             </ion-col>
           </ion-row>
->>>>>>> features/login
         </ion-grid>
         <div>
           <button mat-button matStepperPrevious>Back</button>

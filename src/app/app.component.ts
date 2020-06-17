@@ -31,9 +31,9 @@ export class AppComponent {
       this.authService.authenticationState.subscribe(state => {
         if (state) {
           this.router.navigateByUrl('tabs/tab1');
-        } // else {
-        //   this.router.navigate(['login']);
-        // }
+        } else {
+          this.router.navigateByUrl('login');
+        }
       });
     });
   }

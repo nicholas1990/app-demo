@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-<<<<<<< HEAD
-=======
 import { Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
 
@@ -9,7 +7,6 @@ interface Select {
   value: string;
   viewValue: string;
 }
->>>>>>> features/login
 
 @Component({
   selector: 'app-tab2',
@@ -17,61 +14,6 @@ interface Select {
   styleUrls: ['tab2.page.scss']
 })
 export class Tab2Page implements OnInit {
-<<<<<<< HEAD
-
-  isLinear = true;
-  firstFormGroup: FormGroup;
-  secondFormGroup: FormGroup;
-
-  labelRadioPosition: 'before' | 'after';
-
-  // address: {latitude: number, longitude: number};
-
-  constructor(private readonly fb: FormBuilder) {}
-
-  ngOnInit() {
-    this.firstFormGroup = this.fb.group({
-      codice: ['', Validators.required],
-      tipologia: ['', Validators.required],
-      responsabile: ['', Validators.required],
-      address: [null, Validators.required],
-      photo: [null, Validators.required]
-    });
-    this.secondFormGroup = this.fb.group({
-      ctrl1: ['', Validators.required],
-      ctrl2: [''],
-      radio1: [null]
-    });
-
-    this.firstFormGroup.valueChanges.subscribe(v => {
-      console.log('value:', v);
-    });
-
-  }
-
-  // Get Current Location Coordinates
-  setCurrentLocation() {
-    if ('geolocation' in navigator) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        const latitude = position.coords.latitude;
-        const longitude = position.coords.longitude;
-        this.firstFormGroup.patchValue({ address: { latitude, longitude }, options: { emitEvent: false } });
-      });
-    }
-  }
-
-  setPhoto() {
-    this.firstFormGroup.patchValue({ photo: true });
-  }
-
-  onSubmit() {
-    if ( this.firstFormGroup.valid && this.secondFormGroup.valid ) {
-      const obj = {
-        firstGroup: this.firstFormGroup.value,
-        secondGroup: this.secondFormGroup.value
-      };
-
-=======
 
   isLinear = true;
 
@@ -141,7 +83,7 @@ export class Tab2Page implements OnInit {
 
   // address: {latitude: number, longitude: number};
 
-  constructor(private readonly fb: FormBuilder, private readonly router: Router, private navController: NavController) {}
+  constructor(private readonly fb: FormBuilder, private readonly router: Router) {}
 
   ngOnInit(): void {
     this.firstFormGroup = this.fb.group({
@@ -198,16 +140,12 @@ export class Tab2Page implements OnInit {
         secondGroup: this.secondFormGroup.value
       };
 
->>>>>>> features/login
       if (window.localStorage.getItem('impianti') === null) {
         window.localStorage.setItem('impianti', JSON.stringify([obj]));
       } else {
         window.localStorage.setItem('impianti', JSON.stringify([...JSON.parse(window.localStorage.getItem('impianti')), obj]));
       }
-<<<<<<< HEAD
-=======
       this.router.navigateByUrl('tabs/tab1');
->>>>>>> features/login
     }
   }
 

@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      List
+      Elenco verifiche
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -14,9 +14,14 @@
   </p>
 
   <ion-list>
-    <ion-item *ngFor="let actor of bondActors; trackBy: trackById">
-      <ion-icon [name]="actor.success ? 'checkmark-circle' : 'alert-circle'" [color]="actor.success ? 'success' : 'danger'"></ion-icon>
-      <ion-label> {{actor.firstName}} {{actor.lastName}}</ion-label>
+    <ion-item *ngFor="let impianto of impianti; trackBy: trackById">
+      <ion-icon 
+        [name]="impianto.secondGroup.radio1 === 'after' ? 'checkmark-circle' : 'alert-circle'" 
+        [color]="impianto.secondGroup.radio1 === 'after' ? 'success' : 'danger'">
+      </ion-icon>
+      <ion-label>
+        <b>{{impianto.firstGroup.codice}}</b> {{impianto.firstGroup.tipologia}} {{impianto.firstGroup.responsabile}}
+      </ion-label>
     </ion-item>
   </ion-list>
 

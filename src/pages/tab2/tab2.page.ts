@@ -124,6 +124,8 @@ export class Tab2Page implements OnInit {
         const longitude = position.coords.longitude;
         this.firstFormGroup.patchValue({ address: { latitude, longitude }, options: { emitEvent: false } });
       });
+    } else {
+      this.firstFormGroup.patchValue({ address: { latitude: '', longitude: '' }, options: { emitEvent: false } });
     }
   }
 

@@ -40,7 +40,8 @@ export interface Impianto {
 export class Tab1Page {
 
   impianti: Impianto[];
-  hideBtn: boolean;
+
+  hideBtn: boolean;  // hide btn scrollToBottom e scrollToTop.
 
   constructor() { }
 

@@ -41,18 +41,25 @@
           </ion-row>
           <ion-row>
             <ion-col>
-              <button mat-raised-button (click)="setCurrentLocation()">Località</button>
+              <button mat-raised-button (click)="setCurrentLocation($event)">Località</button>
+              <!-- {{ firstFormGroup.value.address | json }} -->
+              <mat-error *ngIf="firstFormGroup.value.address === null">
+                Geolocalization is required, plese click
+              </mat-error>
             </ion-col>
           </ion-row>
           <ion-row>
             <ion-col>
-              <section class="radio-section">
+              <!-- <section class="radio-section"> -->
                 <label class="radio-margin">Destinazione d'uso:</label>
-                <mat-radio-group formControlName="destinazione">
+                <mat-radio-group formControlName="destinazione" required>
                   <mat-radio-button class="radio-margin" value="abitativo">Abitativo</mat-radio-button>
                   <mat-radio-button class="radio-margin" value="altro">Altro</mat-radio-button>
                 </mat-radio-group>
-              </section>
+                <mat-error *ngIf="firstFormGroup.value.destinazione === null">
+                  Destination is required, plese click
+                </mat-error>
+              <!-- </section> -->
             </ion-col>
           </ion-row>
           <ion-row>
@@ -97,7 +104,10 @@
           </ion-row>
           <ion-row>
             <ion-col>
-              <button mat-raised-button (click)="setPhoto()" >Photo</button>
+              <button mat-raised-button (click)="setPhoto($event)">Photo</button>
+              <mat-error *ngIf="firstFormGroup.value.photo === null">
+                Photo is required, plese click
+              </mat-error>
             </ion-col>
           </ion-row>
           <ion-row>
@@ -119,12 +129,12 @@
     </mat-step>
     <mat-step [stepControl]="secondFormGroup">
       <form [formGroup]="secondFormGroup">
+        <ng-template matStepLabel>Effettua Verifica</ng-template>
         <ion-grid>
           <ion-row>
             <ion-col>
-              <ng-template matStepLabel>Effettua Verifica</ng-template>
               <mat-form-field>
-                <mat-label>Costruttore (senza grid)</mat-label>
+                <mat-label>Costruttore</mat-label>
                 <input matInput formControlName="costruttore" placeholder="Ex. Main, Log, N, ..." required>
               </mat-form-field>
             </ion-col>
@@ -214,14 +224,30 @@
         </div>
       </form>
     </mat-step>
-    <mat-step>
-      <ng-template matStepLabel>Done</ng-template>
-      <p>You are now done.</p>
-      <div>
-        <button mat-raised-button (click)="onSubmit()">Submit</button>
-        <button mat-button matStepperPrevious>Back</button>
-        <button mat-button (click)="stepper.reset()">Reset</button>
-      </div>
+    <mat-step [stepControl]="thirdFormGroup">
+      <form [formGroup]="thirdFormGroup">
+        <ng-template matStepLabel>Done</ng-template>
+        <p>You are now done.</p>
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              <section class="radio-section">
+                <label class="radio-margin">Esito:</label>
+                <mat-radio-group formControlName="esito">
+                  <mat-radio-button class="radio-margin" *ngFor="let esito of esiti" [value]="esito.value">
+                    {{esito.viewValue}}
+                  </mat-radio-button>
+                </mat-radio-group>
+              </section>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+        <div>
+          <button mat-raised-button (click)="onSubmit()" [hidden]="thirdFormGroup.value.esito === null">{{ submitLabel }}</button>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button (click)="stepper.reset()">Reset</button>
+        </div>
+      </form>
     </mat-step>
   </mat-vertical-stepper>
   

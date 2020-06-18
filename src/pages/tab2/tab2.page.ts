@@ -8,6 +8,12 @@ interface Select {
   viewValue: string;
 }
 
+// TODO: use
+interface Radio {
+  value: string;
+  viewValue: string;
+}
+
 @Component({
   selector: 'app-tab2',
   templateUrl: 'tab2.page.html',
@@ -19,6 +25,13 @@ export class Tab2Page implements OnInit {
 
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
+  thirdFormGroup: FormGroup;
+
+  firstFormGroupSubmitted: false;  // todo
+
+  submitLabel: string;
+
+  private esitoClicked: boolean;
 
   labelRadioPosition: 'before' | 'after';
 
@@ -81,16 +94,27 @@ export class Tab2Page implements OnInit {
     { value: 'scarico a parete', viewValue: 'Scarico a parete' },
   ];
 
+    // Esiti della verifica.
+    readonly esiti: Radio[] = [
+      { value: 'true', viewValue: 'Positivo' },
+      { value: 'false', viewValue: 'Negativo' },
+    ];
+
   // address: {latitude: number, longitude: number};
 
   constructor(private readonly fb: FormBuilder, private readonly router: Router) {}
 
   ngOnInit(): void {
+    /**
+     * TODO: per la geolocalizzazione e per la foto, andrebbe implementatoun validatore custom,
+     * in modo da mostrare l'errore 'required' solamente ad una potenziale validazione e non
+     * sempre.
+     */
     this.firstFormGroup = this.fb.group({
       codice: ['', Validators.required],
       tipologia: ['', Validators.required],
       address: [null, Validators.required], // obj Address: { latitude: string; longitude: string; }
-      destinazione: [null],
+      destinazione: [null, Validators.required],
       combustibile: [null],
       categoria: [null],
       volumetria: [''],
@@ -109,15 +133,27 @@ export class Tab2Page implements OnInit {
       matricola: [''],
       scarico: [null],
     });
+    this.thirdFormGroup = this.fb.group({
+      esito: [null]
+    });
 
     this.firstFormGroup.valueChanges.subscribe(v => {
       console.log('value:', v);
     });
 
+    this.thirdFormGroup.valueChanges.subscribe(v => {
+      if (v.esito !== null) {
+        const esitoClicked = (v.esito === 'true');
+        this.submitLabel = esitoClicked ? 'Paga e conferma' : 'Conferma';
+        this.esitoClicked = esitoClicked;
+      }
+    });
+
   }
 
   // Get Current Location Coordinates
-  setCurrentLocation() {
+  setCurrentLocation(event: Event) {
+    event.preventDefault();  // avoid validation form at click
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
         const latitude = position.coords.latitude;
@@ -129,15 +165,20 @@ export class Tab2Page implements OnInit {
     }
   }
 
-  setPhoto() {
+  setPhoto(event: Event) {
+    event.preventDefault();
     this.firstFormGroup.patchValue({ photo: true });
   }
 
   onSubmit() {
     if ( this.firstFormGroup.valid && this.secondFormGroup.valid ) {
+
       const obj = {
         firstGroup: this.firstFormGroup.value,
-        secondGroup: this.secondFormGroup.value
+        secondGroup: this.secondFormGroup.value,
+        thirdGroup: {
+          esito: this.esitoClicked
+        }
       };
 
       if (window.localStorage.getItem('impianti') === null) {

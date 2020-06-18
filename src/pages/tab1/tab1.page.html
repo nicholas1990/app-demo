@@ -7,7 +7,7 @@
 </ion-header>
 
 <ion-content padding [fullscreen]="true">
-  <p class="ion-padding-start ion-padding-end">
+  <p class="ion-padding-start ion-padding-end" [hidden]='hideBtn'>
     <ion-button onclick="scrollToBottom()" expand="block" fill="outline">
       Scroll To Bottom
     </ion-button>
@@ -16,16 +16,16 @@
   <ion-list>
     <ion-item *ngFor="let impianto of impianti; trackBy: trackById">
       <ion-icon 
-        [name]="impianto.secondGroup.radio1 === 'after' ? 'checkmark-circle' : 'alert-circle'" 
-        [color]="impianto.secondGroup.radio1 === 'after' ? 'success' : 'danger'">
+        [name]="impianto.thirdGroup.esito ? 'checkmark-circle' : 'alert-circle'" 
+        [color]="impianto.thirdGroup.esito ? 'success' : 'danger'">
       </ion-icon>
       <ion-label>
-        <b>{{impianto.firstGroup.codice}}</b> {{impianto.firstGroup.tipologia}} {{impianto.firstGroup.responsabile}}
+        <strong>{{impianto.firstGroup.codice}}</strong> {{impianto.firstGroup.tipologia}} {{impianto.firstGroup.responsabile}}
       </ion-label>
     </ion-item>
   </ion-list>
 
-  <p class="ion-padding-start ion-padding-end">
+  <p class="ion-padding-start ion-padding-end" [hidden]='hideBtn'>
     <ion-button onclick="scrollToTop()" expand="block" fill="outline">
       Scroll To Top
     </ion-button>

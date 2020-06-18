@@ -4,18 +4,32 @@ export interface Impianto {
   firstGroup: {
     codice: string,
     tipologia: string,
-    responsabile: string,
     address: {
       latitude: string,
       longitude: string
     },
-    photo: boolean
+    destinazione: string,
+    combustibile: string,
+    categoria: string,
+    volumetria: string,
+    responsabile: string,
+    photo: boolean,
+    note: string,
   };
   secondGroup: {
-    ctrl1: string,
-    ctrl2: string,
-    radio1: string
+    costruttore: string,
+    tiraggio: string,
+    destGeneratore: string,
+    prot: string,
+    modello: string,
+    tipo: string,
+    fascia: string,
+    matricola: string,
+    scarico: string,
   };
+  thirdGroup: {
+    esito: boolean,
+  }
 }
 
 @Component({
@@ -26,11 +40,18 @@ export interface Impianto {
 export class Tab1Page {
 
   impianti: Impianto[];
+  hideBtn: boolean;
 
   constructor() { }
 
   ionViewWillEnter() {
-    this.impianti = [...JSON.parse(window.localStorage.getItem('impianti'))];
+    if (window.localStorage.getItem('impianti') !== null) {
+      this.impianti = [...JSON.parse(window.localStorage.getItem('impianti'))];
+      this.hideBtn = false;
+    } else {
+      this.impianti = [];
+      this.hideBtn = true;
+    }
   }
 
   trackById(index: number, data: any): number {

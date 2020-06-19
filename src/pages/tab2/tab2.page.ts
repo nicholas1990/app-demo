@@ -142,14 +142,17 @@ export class Tab2Page implements OnInit {
   // Get Current Location Coordinates
   setCurrentLocation(event: Event) {
     event.preventDefault();  // avoid validation form at click
+
     if ('geolocation' in navigator) {
+      let latitude = 0;
+      let longitude = 0;
+
       navigator.geolocation.getCurrentPosition((position) => {
-        const latitude = position.coords.latitude;
-        const longitude = position.coords.longitude;
-        this.firstFormGroup.patchValue({ address: { latitude, longitude }, options: { emitEvent: false } });
+        latitude = position.coords.latitude;
+        longitude = position.coords.longitude;
       });
-    } else {
-      this.firstFormGroup.patchValue({ address: { latitude: '', longitude: '' }, options: { emitEvent: false } });
+
+      this.firstFormGroup.patchValue({ address: { latitude, longitude }, options: { emitEvent: false } });
     }
   }
 

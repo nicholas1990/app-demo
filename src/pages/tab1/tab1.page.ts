@@ -60,15 +60,11 @@ export class Tab1Page {
   }
 
   scrollToBottom() {
-    console.log('scrollToBottom()');
-    debugger;
-    // this.getContent().scrollToBottom(500);
+    this.getContent().scrollToBottom(500);
   }
 
   scrollToTop() {
-    console.log('scrollToTop()');
-    debugger;
-    // this.getContent().scrollToTop(500);
+    this.getContent().scrollToTop(500);
   }
 
   private getContent() {

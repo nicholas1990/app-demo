@@ -31,7 +31,7 @@
             <ion-col>
               <mat-form-field>
                 <mat-label>Tipologia Impianto</mat-label>
-                <mat-select formControlName="tipologia">
+                <mat-select formControlName="tipologia" required>
                   <mat-option *ngFor="let tipologia of tipologie" [value]="tipologia.value">
                     {{tipologia.viewValue}}
                   </mat-option>

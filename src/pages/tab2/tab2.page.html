@@ -234,7 +234,7 @@
               <section class="radio-section">
                 <label class="radio-margin">Esito:</label>
                 <mat-radio-group formControlName="esito">
-                  <mat-radio-button class="radio-margin" *ngFor="let esito of esiti" [value]="esito.value">
+                  <mat-radio-button class="radio-margin" *ngFor="let esito of esiti" [value]="esito.value" (change)="onChangeRadioEsito($event)">
                     {{esito.viewValue}}
                   </mat-radio-button>
                 </mat-radio-group>

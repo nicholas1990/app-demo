@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { MatRadioChange } from '@angular/material/radio';
 import { NavController } from '@ionic/angular';
 
 interface Select {
@@ -136,19 +137,6 @@ export class Tab2Page implements OnInit {
     this.thirdFormGroup = this.fb.group({
       esito: [null]
     });
-
-    this.firstFormGroup.valueChanges.subscribe(v => {
-      console.log('value:', v);
-    });
-
-    this.thirdFormGroup.valueChanges.subscribe(v => {
-      if (v.esito !== null) {
-        const esitoClicked = (v.esito === 'true');
-        this.submitLabel = esitoClicked ? 'Paga e conferma' : 'Conferma';
-        this.esitoClicked = esitoClicked;
-      }
-    });
-
   }
 
   // Get Current Location Coordinates
@@ -170,14 +158,20 @@ export class Tab2Page implements OnInit {
     this.firstFormGroup.patchValue({ photo: true });
   }
 
+  onChangeRadioEsito(event: MatRadioChange) {
+    this.submitLabel = (event.value === 'true') ? 'Paga e conferma' : 'Conferma';
+  }
+
   onSubmit() {
     if ( this.firstFormGroup.valid && this.secondFormGroup.valid ) {
+
+      const esito = (this.thirdFormGroup.controls.esito.value === 'true');  // esito clicked casted to boolean.
 
       const obj = {
         firstGroup: this.firstFormGroup.value,
         secondGroup: this.secondFormGroup.value,
         thirdGroup: {
-          esito: this.esitoClicked
+          esito
         }
       };
 

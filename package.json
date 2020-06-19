@@ -3,6 +3,10 @@
   "version": "0.0.1",
   "author": "Ionic Framework",
   "homepage": "https://ionicframework.com/",
+  "config": {
+    "ionic_bundler": "webpack",
+    "ionic_source_map_type": "#inline-source-map"
+  },    
   "scripts": {
     "ng": "ng",
     "start": "ng serve",

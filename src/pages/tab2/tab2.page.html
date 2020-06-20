@@ -49,16 +49,16 @@
             </ion-col>
           </ion-row>
           <ion-row>
-            <ion-col>
+            <ion-col class="md hydrated">
               <!-- <section class="radio-section"> -->
-                <label class="radio-margin">Destinazione d'uso:</label>
-                <mat-radio-group formControlName="destinazione" required>
-                  <mat-radio-button class="radio-margin" value="abitativo">Abitativo</mat-radio-button>
-                  <mat-radio-button class="radio-margin" value="altro">Altro</mat-radio-button>
-                </mat-radio-group>
-                <mat-error *ngIf="firstFormGroup.value.destinazione === null">
-                  Destination is required, plese click
-                </mat-error>
+              <label class="radio-margin">Destinazione d'uso:</label>
+              <mat-radio-group formControlName="destinazione" required>
+                <mat-radio-button class="radio-margin" value="abitativo">Abitativo</mat-radio-button>
+                <mat-radio-button class="radio-margin" value="altro">Altro</mat-radio-button>
+              </mat-radio-group>
+              <mat-error *ngIf="firstFormGroup.value.destinazione === null">
+                Destination is required, plese click
+              </mat-error>
               <!-- </section> -->
             </ion-col>
           </ion-row>

@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit, ElementRef, Renderer2 } from '@angular/core';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
-import { MatRadioChange } from '@angular/material/radio';
 import { NavController } from '@ionic/angular';
+import { MatRadioChange } from '@angular/material/radio';
 
 interface Select {
   value: string;
@@ -32,6 +32,7 @@ export class Tab2Page implements OnInit {
 
   submitLabel: string;
 
+  isSubmitting: boolean = false;
   private esitoClicked: boolean;
 
   labelRadioPosition: 'before' | 'after';
@@ -103,7 +104,12 @@ export class Tab2Page implements OnInit {
 
   // address: {latitude: number, longitude: number};
 
-  constructor(private readonly fb: FormBuilder, private readonly router: Router) {}
+  constructor(
+    private readonly fb: FormBuilder,
+    private readonly router: Router,
+    private el: ElementRef,
+    private renderer: Renderer2
+  ) {}
 
   ngOnInit(): void {
     /**
@@ -139,6 +145,66 @@ export class Tab2Page implements OnInit {
     });
   }
 
+  onStepChange(event: Event): void {
+    console.log(event);
+  }
+
+  onMatStepperPrevious(event: Event) {
+
+    console.log(event);
+
+    // validateAllFormFields
+
+    // Object.keys(formGroup.controls).forEach(field => {  //{2}
+    //   const control = formGroup.get(field);             //{3}
+    //   if (control instanceof FormControl) {             //{4}
+    //     control.markAsTouched({ onlySelf: true });
+    //   } else if (control instanceof FormGroup) {        //{5}
+    //     this.validateAllFormFields(control);            //{6}
+    //   }
+    // });
+
+    // function validateAllFormFields(formGroup: FormGroup) {//{1}
+    //   Object.keys(formGroup.controls).forEach(field => {  //{2}
+    //     const control = formGroup.get(field);             //{3}
+    //     if (control instanceof FormControl) {             //{4}
+    //       control.markAsTouched({ onlySelf: true });
+    //     } else if (control instanceof FormGroup) {        //{5}
+    //       this.validateAllFormFields(control);            //{6}
+    //     }
+    //   });
+    // }
+  }
+
+  onMatStepperNext(event: Event) {
+    if (event === undefined) {
+      this.isSubmitting = true;
+    }
+    //  else {
+      // if ( event !== undefined && events.selectedStep.hasError) {
+        // this.isSubmitting = false;
+      // }
+    // }
+
+    const hostElem = this.el.nativeElement;
+    console.log(hostElem.children);
+    console.log(hostElem.parentNode);
+
+    debugger;
+
+    // .style.top = '150px';
+    // console.log(document.querySelector('.mat-radio-outer-circle') as HTMLElement);
+
+    // (() => {
+    //   const radioControls = document.querySelectorAll('.mat-radio-outer-circle');
+    //   // tslint:disable-next-line: forin
+    //   for (const control in radioControls) {
+    //     console.log('control: ', control);
+    //   }
+    // })();
+    // debugger;
+  }
+
   // Get Current Location Coordinates
   setCurrentLocation(event: Event) {
     event.preventDefault();  // avoid validation form at click
@@ -156,9 +222,45 @@ export class Tab2Page implements OnInit {
     }
   }
 
-  setPhoto(event: Event) {
+  private info(str: string) {
+    console.log(str);
+  }
+
+  setPhoto(event: Event, color?: string) {
     event.preventDefault();
+
+    const value = this.firstFormGroup.get('photo').value;
+    this.info(value);
+
     this.firstFormGroup.patchValue({ photo: true });
+
+    // if (value === null) {
+    //   this.firstFormGroup.patchValue({ photo: true });
+    // } else {
+    //   const getValue = (btnColor: string | null): boolean | null => {
+    //     if (btnColor === 'danger') {
+    //       return null;
+    //     } else {
+    //       return true;
+    //     }
+    //   };
+
+    //   const val = getValue(color);
+    //   debugger;
+    //   if (value !== val) { // se c'è stato un cambiamento (in entrambe le direzioni)
+    //     console.log('val', val);
+
+    //     if (val === null) {
+    //       // todo: come si patcha un null?
+    //     } else if (val === true) {
+    //       this.firstFormGroup.patchValue({ photo: val }, { emitEvent: false });
+    //     }
+    //   } else if (value === null && val === null) { // se s0 e s1 sono entrambi null
+    //   } else {
+    //     console.log("[ERROR]: non si dovrebbe verificare questo caso");
+    //   }
+    // }
+
   }
 
   onChangeRadioEsito(event: MatRadioChange) {
@@ -167,7 +269,6 @@ export class Tab2Page implements OnInit {
 
   onSubmit() {
     if ( this.firstFormGroup.valid && this.secondFormGroup.valid ) {
-
       const esito = (this.thirdFormGroup.controls.esito.value === 'true');  // esito clicked casted to boolean.
 
       const obj = {
@@ -181,9 +282,12 @@ export class Tab2Page implements OnInit {
       if (window.localStorage.getItem('impianti') === null) {
         window.localStorage.setItem('impianti', JSON.stringify([obj]));
       } else {
-        window.localStorage.setItem('impianti', JSON.stringify([...JSON.parse(window.localStorage.getItem('impianti')), obj]));
+        const newImpianti = [...JSON.parse(window.localStorage.getItem('impianti')), obj];
+        window.localStorage.setItem('impianti', JSON.stringify(newImpianti));
       }
       this.router.navigateByUrl('tabs/tab1');
+    } else {
+      debugger;
     }
   }
 

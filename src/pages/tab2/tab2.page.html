@@ -13,7 +13,7 @@
 <ion-content [fullscreen]="true">
   <!-- NEW <form id="regForm" [formGroup]="registrationForm"> -->
     <!-- <form id="regForm" [formGroup]="registrationForm"> -->
-  <mat-vertical-stepper #stepper [linear]="isLinear">
+  <mat-vertical-stepper #stepper [linear]="isLinear" (selectionChange)="onStepChange($event)">
     <mat-step [stepControl]="firstFormGroup">
       <form [formGroup]="firstFormGroup">
       <!-- OLD <form [formGroup]="firstFormGroup"> -->
@@ -21,7 +21,7 @@
         <ion-grid>
           <ion-row>
             <ion-col>
-              <mat-form-field>
+              <mat-form-field class="full-width-input">
                 <mat-label>Codice Impianto</mat-label>
                 <input matInput formControlName="codice" placeholder="Example: MWZYC" required>
               </mat-form-field>
@@ -29,7 +29,7 @@
           </ion-row>
           <ion-row>
             <ion-col>
-              <mat-form-field>
+              <mat-form-field class="full-width-input">
                 <mat-label>Tipologia Impianto</mat-label>
                 <mat-select formControlName="tipologia" required>
                   <mat-option *ngFor="let tipologia of tipologie" [value]="tipologia.value">
@@ -40,31 +40,25 @@
             </ion-col>
           </ion-row>
           <ion-row>
-            <ion-col>
-              <button mat-raised-button (click)="setCurrentLocation($event)">Località</button>
-              <!-- {{ firstFormGroup.value.address | json }} -->
-              <mat-error *ngIf="firstFormGroup.value.address === null">
-                Geolocalization is required, plese click
-              </mat-error>
-            </ion-col>
-          </ion-row>
-          <ion-row>
             <ion-col class="md hydrated">
-              <!-- <section class="radio-section"> -->
               <label class="radio-margin">Destinazione d'uso:</label>
               <mat-radio-group formControlName="destinazione" required>
+                <!--
+                  [ngClass]="{
+                    'mat-radio-outer-circle-error': true
+                  }"
+                -->
                 <mat-radio-button class="radio-margin" value="abitativo">Abitativo</mat-radio-button>
                 <mat-radio-button class="radio-margin" value="altro">Altro</mat-radio-button>
               </mat-radio-group>
-              <mat-error *ngIf="firstFormGroup.value.destinazione === null">
+              <mat-error *ngIf="firstFormGroup.value.destinazione === null && isSubmitting">
                 Destination is required, plese click
               </mat-error>
-              <!-- </section> -->
             </ion-col>
           </ion-row>
           <ion-row>
             <ion-col>
-              <mat-form-field>
+              <mat-form-field class="full-width-input">
                 <mat-label>Combustibile</mat-label>
                 <mat-select formControlName="combustibile">
                   <mat-option *ngFor="let combustibile of combustibili" [value]="combustibile.value">
@@ -76,7 +70,7 @@
           </ion-row>
           <ion-row>
             <ion-col>
-              <mat-form-field>
+              <mat-form-field class="full-width-input">
                 <mat-label>Categoria</mat-label>
                 <mat-select formControlName="categoria">
                   <mat-option *ngFor="let categoria of categorie" [value]="categoria.value">
@@ -88,7 +82,7 @@
           </ion-row>
           <ion-row>
             <ion-col>
-              <mat-form-field>
+              <mat-form-field class="full-width-input">
                 <mat-label>Volumetria riscaldata m3:</mat-label>
                 <input matInput formControlName="volumetria" placeholder="Non saprei">
               </mat-form-field>
@@ -96,18 +90,30 @@
           </ion-row>
           <ion-row>
             <ion-col>
-              <mat-form-field>
+              <mat-form-field class="full-width-input">
                 <mat-label>Responsabile</mat-label>
                 <input matInput formControlName="responsabile" placeholder="Nome, cognome" required>
               </mat-form-field>
             </ion-col>
           </ion-row>
-          <ion-row>
-            <ion-col>
-              <button mat-raised-button (click)="setPhoto($event)">Photo</button>
-              <mat-error *ngIf="firstFormGroup.value.photo === null">
+          <ion-row class="mat-form-field-wrapper ion-justify-content-center" >
+            <ion-col size="6">
+              <button mat-raised-button (click)="setPhoto($event)"
+                [color]="firstFormGroup.value.photo === null && isSubmitting ? 'warn' : ''">
+                Photo
+              </button>
+              <!-- <mat-error *ngIf="firstFormGroup.value.photo === null">
                 Photo is required, plese click
-              </mat-error>
+              </mat-error> -->
+            </ion-col>
+            <ion-col size="6">
+              <button mat-raised-button center (click)="setCurrentLocation($event)" 
+                [color]="firstFormGroup.value.address === null && isSubmitting ? 'warn' : ''">
+                Località
+              </button>
+              <!-- <mat-error *ngIf="firstFormGroup.value.address === null && isSubmitting">
+                Geolocalization is required, plese click
+              </mat-error> -->
             </ion-col>
           </ion-row>
           <ion-row>
@@ -123,7 +129,7 @@
           Form Status: {{ firstFormGroup.status }}
         </p> -->
         <div>
-          <button mat-button matStepperNext>Next</button>
+          <button mat-button matStepperNext type="button" (click)="onMatStepperNext()">Next</button>
         </div>
       </form>
     </mat-step>
@@ -133,26 +139,27 @@
         <ion-grid>
           <ion-row>
             <ion-col>
-              <mat-form-field>
+              <mat-form-field class="full-width-input">
                 <mat-label>Costruttore</mat-label>
                 <input matInput formControlName="costruttore" placeholder="Ex. Main, Log, N, ..." required>
               </mat-form-field>
             </ion-col>
           </ion-row>
           <ion-row>
-            <ion-col>
-              <section class="radio-section">
-                <label class="radio-margin">Tiraggio:</label>
-                <mat-radio-group formControlName="tiraggio">
-                  <mat-radio-button class="radio-margin" value="forzato">Forzato</mat-radio-button>
-                  <mat-radio-button class="radio-margin" value="naturale">Naturale</mat-radio-button>
-                </mat-radio-group>
-              </section>
+            <ion-col class="md hydrated">
+              <label class="radio-margin">Tiraggio:       </label>
+              <mat-radio-group formControlName="tiraggio">
+                <mat-radio-button class="radio-margin" value="forzato">Forzato</mat-radio-button>
+                <mat-radio-button class="radio-margin" value="naturale">Naturale</mat-radio-button>
+              </mat-radio-group>
+              <mat-error *ngIf="firstFormGroup.value.tiraggio === null">
+                Tiraggio is required, plese click
+              </mat-error>
             </ion-col>
           </ion-row>
           <ion-row>
             <ion-col>
-              <mat-form-field>
+              <mat-form-field class="full-width-input">
                 <mat-label>Destinazione d'uso generatore:</mat-label>
                 <input matInput formControlName="destGeneratore">
               </mat-form-field>
@@ -160,7 +167,7 @@
           </ion-row>
           <ion-row>
             <ion-col>
-              <mat-form-field>
+              <mat-form-field class="full-width-input">
                 <mat-label>Prot.Foc.Nom:</mat-label>
                 <input matInput formControlName="prot">
               </mat-form-field>
@@ -168,26 +175,27 @@
           </ion-row>
           <ion-row>
             <ion-col>
-              <mat-form-field>
+              <mat-form-field class="full-width-input">
                 <mat-label>Modello:</mat-label>
                 <input matInput formControlName="modello">
               </mat-form-field>
             </ion-col>
           </ion-row>
           <ion-row>
-            <ion-col>
-              <section class="radio-section">
-                <label class="radio-margin">Tipo:</label>
-                <mat-radio-group formControlName="tipo">
-                  <mat-radio-button class="radio-margin" value="aperto">Aperto</mat-radio-button>
-                  <mat-radio-button class="radio-margin" value="chiuso">Chiuso</mat-radio-button>
-                </mat-radio-group>
-              </section>
+            <ion-col class="md hydrated">
+              <label class="radio-margin">Tipo:           </label>
+              <mat-radio-group formControlName="tipo">
+                <mat-radio-button class="radio-margin" value="aperto">Aperto</mat-radio-button>
+                <mat-radio-button class="radio-margin" value="chiuso">Chiuso</mat-radio-button>
+              </mat-radio-group>
+              <mat-error *ngIf="firstFormGroup.value.tipo === null">
+                Tipo is required, plese click
+              </mat-error>
             </ion-col>
           </ion-row>
           <ion-row>
             <ion-col>
-              <mat-form-field>
+              <mat-form-field class="full-width-input">
                 <mat-label>Fascia di potenza:</mat-label>
                 <mat-select formControlName="fascia">
                   <mat-option *ngFor="let fascia of fascie" [value]="fascia.value">
@@ -199,7 +207,7 @@
           </ion-row>
           <ion-row>
             <ion-col>
-              <mat-form-field>
+              <mat-form-field class="full-width-input">
                 <mat-label>Matricola:</mat-label>
                 <input matInput formControlName="matricola">
               </mat-form-field>
@@ -207,7 +215,7 @@
           </ion-row>
           <ion-row>
             <ion-col>
-              <mat-form-field>
+              <mat-form-field class="full-width-input">
                 <mat-label>Scarico fumi:</mat-label>
                 <mat-select formControlName="scarico">
                   <mat-option *ngFor="let scarico of scarichi" [value]="scarico.value">
@@ -219,8 +227,8 @@
           </ion-row>
         </ion-grid>
         <div>
-          <button mat-button matStepperPrevious>Back</button>
-          <button mat-button matStepperNext>Next</button>
+          <button mat-button matStepperPrevious type="button" (click)="onMatStepperPrevious($event)">Back</button>
+          <button mat-button matStepperNext type="button" (click)="onMatStepperNext()">Next</button>
         </div>
       </form>
     </mat-step>
@@ -230,7 +238,7 @@
         <p>You are now done.</p>
         <ion-grid>
           <ion-row>
-            <ion-col>
+            <ion-col class="md hydrated">
               <section class="radio-section">
                 <label class="radio-margin">Esito:</label>
                 <mat-radio-group formControlName="esito">
@@ -244,7 +252,7 @@
         </ion-grid>
         <div>
           <button mat-raised-button (click)="onSubmit()" [hidden]="thirdFormGroup.value.esito === null">{{ submitLabel }}</button>
-          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperPrevious type="button" (click)="onMatStepperPrevious()">Back</button>
           <button mat-button (click)="stepper.reset()">Reset</button>
         </div>
       </form>

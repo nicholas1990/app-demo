@@ -40,8 +40,12 @@
             </ion-col>
           </ion-row>
           <ion-row>
-            <ion-col class="md hydrated">
+            <ion-col>
               <label class="radio-margin">Destinazione d'uso:</label>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
               <mat-radio-group formControlName="destinazione" required>
                 <!--
                   [ngClass]="{
@@ -102,18 +106,12 @@
                 [color]="firstFormGroup.value.photo === null && isSubmitting ? 'warn' : ''">
                 Photo
               </button>
-              <!-- <mat-error *ngIf="firstFormGroup.value.photo === null">
-                Photo is required, plese click
-              </mat-error> -->
             </ion-col>
             <ion-col size="6">
               <button mat-raised-button center (click)="setCurrentLocation($event)" 
                 [color]="firstFormGroup.value.address === null && isSubmitting ? 'warn' : ''">
                 Località
               </button>
-              <!-- <mat-error *ngIf="firstFormGroup.value.address === null && isSubmitting">
-                Geolocalization is required, plese click
-              </mat-error> -->
             </ion-col>
           </ion-row>
           <ion-row>
@@ -125,9 +123,7 @@
             </ion-col>
           </ion-row>
         </ion-grid>
-        <!-- <p>
-          Form Status: {{ firstFormGroup.status }}
-        </p> -->
+        <!-- <p> Form Status: {{ firstFormGroup.status }} </p> -->
         <div>
           <button mat-button matStepperNext type="button" (click)="onMatStepperNext()">Next</button>
         </div>
@@ -183,7 +179,11 @@
           </ion-row>
           <ion-row>
             <ion-col class="md hydrated">
-              <label class="radio-margin">Tipo:           </label>
+              <label class="radio-margin">Tipo:</label>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col class="md hydrated">
               <mat-radio-group formControlName="tipo">
                 <mat-radio-button class="radio-margin" value="aperto">Aperto</mat-radio-button>
                 <mat-radio-button class="radio-margin" value="chiuso">Chiuso</mat-radio-button>

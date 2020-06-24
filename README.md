@@ -1,5 +1,9 @@
 # app-demo
 
+# Custom theme
+https://ionicframework.com/docs/theming/color-generator per ionic.
+
+
 # Avvio app-mobile/creazione build
 
 Dalla folder del progetto

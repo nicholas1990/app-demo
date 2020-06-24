@@ -143,12 +143,16 @@
           </ion-row>
           <ion-row>
             <ion-col class="md hydrated">
-              <label class="radio-margin">Tiraggio:       </label>
+              <label class="radio-margin">Tiraggio:</label>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col class="md hydrated">
               <mat-radio-group formControlName="tiraggio">
                 <mat-radio-button class="radio-margin" value="forzato">Forzato</mat-radio-button>
                 <mat-radio-button class="radio-margin" value="naturale">Naturale</mat-radio-button>
               </mat-radio-group>
-              <mat-error *ngIf="firstFormGroup.value.tiraggio === null">
+              <mat-error *ngIf="secondFormGroup.value.tiraggio === null && isSubmitting">
                 Tiraggio is required, plese click
               </mat-error>
             </ion-col>
@@ -188,7 +192,7 @@
                 <mat-radio-button class="radio-margin" value="aperto">Aperto</mat-radio-button>
                 <mat-radio-button class="radio-margin" value="chiuso">Chiuso</mat-radio-button>
               </mat-radio-group>
-              <mat-error *ngIf="firstFormGroup.value.tipo === null">
+              <mat-error *ngIf="secondFormGroup.value.tipo === null && isSubmitting">
                 Tipo is required, plese click
               </mat-error>
             </ion-col>

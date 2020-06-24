@@ -33,6 +33,7 @@ export class Tab2Page implements OnInit {
   submitLabel: string;
 
   isSubmitting: boolean = false;
+  private isChangedStep: boolean = false;
   private esitoClicked: boolean;
 
   labelRadioPosition: 'before' | 'after';
@@ -131,11 +132,11 @@ export class Tab2Page implements OnInit {
     });
     this.secondFormGroup = this.fb.group({
       costruttore: ['', Validators.required],
-      tiraggio: [null],
+      tiraggio: [null, Validators.required],
       destGeneratore: [''],
       prot : [''],
       modello: [''],
-      tipo: [null],
+      tipo: [null, Validators.required],
       fascia: [null],
       matricola: [''],
       scarico: [null],
@@ -146,12 +147,19 @@ export class Tab2Page implements OnInit {
   }
 
   onStepChange(event: Event): void {
-    console.log(event);
+    console.log('onStepChange(event: Event): ', event);
+    // debugger;
+
+    this.isSubmitting = false;
+    this.isChangedStep = true;
+    // if (event === undefined || ) {
+    //   this.isSubmitting = true;
+    // }
   }
 
   onMatStepperPrevious(event: Event) {
 
-    console.log(event);
+    console.log('onMatStepperPrevious(event: Event):', event);
 
     // validateAllFormFields
 
@@ -177,20 +185,27 @@ export class Tab2Page implements OnInit {
   }
 
   onMatStepperNext(event: Event) {
+    console.log('onMatStepperNext(event: Event):', event);
+
+    console.log('this.isSubmitting:', this.isSubmitting, 'this.isChangedStep', this.isChangedStep);
     if (event === undefined) {
-      this.isSubmitting = true;
+      if (!this.isChangedStep) {
+        this.isSubmitting = true;
+      }
+      this.isChangedStep = false;
     }
+    console.log('this.isSubmitting:', this.isSubmitting, 'this.isChangedStep', this.isChangedStep);
     //  else {
       // if ( event !== undefined && events.selectedStep.hasError) {
         // this.isSubmitting = false;
       // }
     // }
 
-    const hostElem = this.el.nativeElement;
-    console.log(hostElem.children);
-    console.log(hostElem.parentNode);
+    // const hostElem = this.el.nativeElement;
+    // console.log(hostElem.children);
+    // console.log(hostElem.parentNode);
 
-    debugger;
+    // debugger;
 
     // .style.top = '150px';
     // console.log(document.querySelector('.mat-radio-outer-circle') as HTMLElement);

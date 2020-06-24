@@ -1,19 +1,19 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
+  <ion-toolbar color="primary">
     <ion-title>
-      Elenco verifiche
+      Lista Interventi
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content padding [fullscreen]="true">
-  <p class="ion-padding-start ion-padding-end" [hidden]='hideBtn'>
+  <!-- <p class="ion-padding-start ion-padding-end" [hidden]='hideBtn'>
     <ion-button (click)="scrollToBottom()" expand="block" fill="outline">
       Scroll To Bottom
     </ion-button>
-  </p>
+  </p> -->
 
-  <ion-list>
+  <!-- <ion-list>
     <ion-item *ngFor="let impianto of impianti; trackBy: trackById">
       <ion-icon 
         [name]="impianto.thirdGroup.esito ? 'checkmark-circle' : 'alert-circle'" 
@@ -23,11 +23,24 @@
         <strong>{{impianto.firstGroup.codice}}</strong> {{impianto.firstGroup.tipologia}} {{impianto.firstGroup.responsabile}}
       </ion-label>
     </ion-item>
-  </ion-list>
+  </ion-list> -->
 
-  <p class="ion-padding-start ion-padding-end" [hidden]='hideBtn'>
+  <mat-list>
+    <mat-list-item *ngFor="let impianto of impianti">
+      <!-- <mat-icon matListIcon>folder</mat-icon> -->
+      <ion-icon 
+        [name]="impianto.thirdGroup.esito ? 'checkmark-circle' : 'alert-circle'" 
+        [color]="impianto.thirdGroup.esito ? 'success' : 'danger'">
+      </ion-icon>
+      <ion-label>
+        <strong>{{impianto.firstGroup.codice}}</strong> {{impianto.firstGroup.tipologia}} {{impianto.firstGroup.responsabile}}
+      </ion-label>
+    </mat-list-item>
+  </mat-list>
+
+  <!-- <p class="ion-padding-start ion-padding-end" [hidden]='hideBtn'>
     <ion-button (click)="scrollToTop()" expand="block" fill="outline">
       Scroll To Top M
     </ion-button>
-  </p>
+  </p> -->
 </ion-content>

@@ -1,25 +1,35 @@
 import { Injectable } from '@angular/core';
-import { Storage } from '@ionic/storage';
+// import { Storage } from '@ionic/storage';
 
 @Injectable()
 export class TargheStoreService {
 
+  private _getItem(key: string): string {
+    return window.localStorage.getItem(key);
+  }
+
+  private _setItem(key: string, value: string) {
+    window.localStorage.setItem(key, value);
+  }
+
   constructor() { }
 
   getTotTarghe() {
-    return JSON.parse(window.localStorage.getItem('totTarghe'));
+    const targhe = this._getItem('totTarghe');
+    return JSON.parse(targhe);
   }
   setTotTarghe(val: number) {
     const totTarghe = JSON.stringify(val);
-    window.localStorage.setItem('totTarghe', totTarghe);
+    this._setItem('totTarghe', totTarghe);
   }
 
-  getLastMovement() {
-    return JSON.parse(window.localStorage.getItem('ultimoMovimento'));
+  getUltimoMovimento() {
+    const ultimoMovimento = this._getItem('ultimoMovimento');
+    return JSON.parse(ultimoMovimento);
   }
-  setLastMovement(val: number) {
+  setUltimoMovimento(val: number) {
     const ultimoMovimento = JSON.stringify(val);
-    window.localStorage.setItem('ultimoMovimento', ultimoMovimento);
+    this._setItem('ultimoMovimento', ultimoMovimento);
   }
 
 }

@@ -1,11 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from './services/auth.service';
+import { StoreService } from '../../services/store.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: 'login.page.html',
-  styleUrls: ['login.page.scss']
+  styleUrls: ['login.page.scss'],
+  providers: [
+    StoreService
+  ]
 })
 export class LoginPage implements OnInit {
 
@@ -15,7 +19,8 @@ export class LoginPage implements OnInit {
 
   constructor(
     private readonly fb: FormBuilder,
-    private readonly authService: AuthService
+    private readonly authService: AuthService,
+    private readonly store: StoreService,
   ) {}
 
   ngOnInit() {
@@ -41,6 +46,11 @@ export class LoginPage implements OnInit {
         //  this.router.navigateByUrl('tabs/tab1');
         //  await this.router.navigate(['tabs/tab1']);
         // }
+
+        const TARGHE = 12;
+        this.store.setTotTarghe(TARGHE);
+        this.store.setLastMovement(TARGHE);
+
       }
       catch (err) {
         this.loginInvalid = true;

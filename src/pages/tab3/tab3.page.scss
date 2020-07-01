@@ -1,0 +1,32 @@
+/** 
+ * Rendere riutilizzabile
+ */
+ mat-card {
+    max-width: 400px;  // percentage
+    margin: 2em auto;
+    text-align: center;
+}
+
+.secondary-text {
+    color: rgba(0,0,0,.54);
+}
+
+.font-size-54 {
+    font-size: 100px;
+}
+
+.font-weight-300 {
+    font-weight: 300;
+}
+
+.line-height-1 {
+    line-height: 1;
+}
+
+.counter-targhe {
+    color: #495057
+}
+
+// .mat-icon-button .mat-success {
+//     color:#155724;
+// }

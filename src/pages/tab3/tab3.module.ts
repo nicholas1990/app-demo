@@ -8,6 +8,8 @@ import { Tab3Page } from './tab3.page';
 
 import { Tab3PageRoutingModule } from './tab3-routing.module';
 
+import { MaterialModule } from './material.module';
+
 @NgModule({
   imports: [
     IonicModule,
@@ -16,6 +18,8 @@ import { Tab3PageRoutingModule } from './tab3-routing.module';
     // ExploreContainerComponentModule,
     RouterModule.forChild([{ path: '', component: Tab3Page }]),
     Tab3PageRoutingModule,
+
+    MaterialModule,
   ],
   declarations: [Tab3Page]
 })

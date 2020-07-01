@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { MatRadioChange } from '@angular/material/radio';
 
+import { StoreService } from '../../services/store.service';
+
 interface Select {
   value: string;
   viewValue: string;
@@ -18,7 +20,10 @@ interface Radio {
 @Component({
   selector: 'app-tab2',
   templateUrl: 'tab2.page.html',
-  styleUrls: ['tab2.page.scss']
+  styleUrls: ['tab2.page.scss'],
+  providers: [
+    StoreService
+  ]
 })
 export class Tab2Page implements OnInit {
 
@@ -109,7 +114,8 @@ export class Tab2Page implements OnInit {
     private readonly fb: FormBuilder,
     private readonly router: Router,
     private el: ElementRef,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private readonly store: StoreService,
   ) {}
 
   ngOnInit(): void {
@@ -300,6 +306,13 @@ export class Tab2Page implements OnInit {
         const newImpianti = [...JSON.parse(window.localStorage.getItem('impianti')), obj];
         window.localStorage.setItem('impianti', JSON.stringify(newImpianti));
       }
+
+      if (this.submitLabel === 'Paga e conferma') {
+        const totTarghe = this.store.getTotTarghe();
+        this.store.setTotTarghe(totTarghe - 1);
+        this.store.setLastMovement(-1);
+      }
+
       this.router.navigateByUrl('tabs/tab1');
     } else {
       debugger;

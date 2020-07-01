@@ -14,14 +14,14 @@ import { MatButtonModule } from '@angular/material/button';
     MatFormFieldModule,
     MatInputModule,
     MatRadioModule,
-    MatButtonModule,
+    MatButtonModule
   ],
   exports: [
     MatCardModule,
     MatFormFieldModule,
     MatInputModule,
     MatRadioModule,
-    MatButtonModule,
+    MatButtonModule
   ]
 })
 export class MaterialModule { }

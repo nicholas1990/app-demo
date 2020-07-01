@@ -1,10 +1,9 @@
-import { Component, OnInit, ElementRef, Renderer2 } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
-import { NavController } from '@ionic/angular';
 import { MatRadioChange } from '@angular/material/radio';
 
-import { StoreService } from '../../services/store.service';
+import { TargheStoreService } from '../../services/targhe.localstore.service';
 
 interface Select {
   value: string;
@@ -22,7 +21,7 @@ interface Radio {
   templateUrl: 'tab2.page.html',
   styleUrls: ['tab2.page.scss'],
   providers: [
-    StoreService
+    TargheStoreService
   ]
 })
 export class Tab2Page implements OnInit {
@@ -102,20 +101,18 @@ export class Tab2Page implements OnInit {
     { value: 'scarico a parete', viewValue: 'Scarico a parete' },
   ];
 
-    // Esiti della verifica.
-    readonly esiti: Radio[] = [
-      { value: 'true', viewValue: 'Positivo' },
-      { value: 'false', viewValue: 'Negativo' },
-    ];
+  // Esiti della verifica.
+  readonly esiti: Radio[] = [
+    { value: 'true', viewValue: 'Positivo' },
+    { value: 'false', viewValue: 'Negativo' },
+  ];
 
   // address: {latitude: number, longitude: number};
 
   constructor(
     private readonly fb: FormBuilder,
     private readonly router: Router,
-    private el: ElementRef,
-    private renderer: Renderer2,
-    private readonly store: StoreService,
+    private readonly targheStore: TargheStoreService,
   ) {}
 
   ngOnInit(): void {
@@ -154,76 +151,27 @@ export class Tab2Page implements OnInit {
 
   onStepChange(event: Event): void {
     console.log('onStepChange(event: Event): ', event);
-    // debugger;
 
     this.isSubmitting = false;
     this.isChangedStep = true;
-    // if (event === undefined || ) {
-    //   this.isSubmitting = true;
-    // }
   }
 
   onMatStepperPrevious(event: Event) {
-
     console.log('onMatStepperPrevious(event: Event):', event);
-
-    // validateAllFormFields
-
-    // Object.keys(formGroup.controls).forEach(field => {  //{2}
-    //   const control = formGroup.get(field);             //{3}
-    //   if (control instanceof FormControl) {             //{4}
-    //     control.markAsTouched({ onlySelf: true });
-    //   } else if (control instanceof FormGroup) {        //{5}
-    //     this.validateAllFormFields(control);            //{6}
-    //   }
-    // });
-
-    // function validateAllFormFields(formGroup: FormGroup) {//{1}
-    //   Object.keys(formGroup.controls).forEach(field => {  //{2}
-    //     const control = formGroup.get(field);             //{3}
-    //     if (control instanceof FormControl) {             //{4}
-    //       control.markAsTouched({ onlySelf: true });
-    //     } else if (control instanceof FormGroup) {        //{5}
-    //       this.validateAllFormFields(control);            //{6}
-    //     }
-    //   });
-    // }
   }
 
   onMatStepperNext(event: Event) {
     console.log('onMatStepperNext(event: Event):', event);
-
     console.log('this.isSubmitting:', this.isSubmitting, 'this.isChangedStep', this.isChangedStep);
+
     if (event === undefined) {
       if (!this.isChangedStep) {
         this.isSubmitting = true;
       }
       this.isChangedStep = false;
     }
+
     console.log('this.isSubmitting:', this.isSubmitting, 'this.isChangedStep', this.isChangedStep);
-    //  else {
-      // if ( event !== undefined && events.selectedStep.hasError) {
-        // this.isSubmitting = false;
-      // }
-    // }
-
-    // const hostElem = this.el.nativeElement;
-    // console.log(hostElem.children);
-    // console.log(hostElem.parentNode);
-
-    // debugger;
-
-    // .style.top = '150px';
-    // console.log(document.querySelector('.mat-radio-outer-circle') as HTMLElement);
-
-    // (() => {
-    //   const radioControls = document.querySelectorAll('.mat-radio-outer-circle');
-    //   // tslint:disable-next-line: forin
-    //   for (const control in radioControls) {
-    //     console.log('control: ', control);
-    //   }
-    // })();
-    // debugger;
   }
 
   // Get Current Location Coordinates
@@ -255,33 +203,6 @@ export class Tab2Page implements OnInit {
 
     this.firstFormGroup.patchValue({ photo: true });
 
-    // if (value === null) {
-    //   this.firstFormGroup.patchValue({ photo: true });
-    // } else {
-    //   const getValue = (btnColor: string | null): boolean | null => {
-    //     if (btnColor === 'danger') {
-    //       return null;
-    //     } else {
-    //       return true;
-    //     }
-    //   };
-
-    //   const val = getValue(color);
-    //   debugger;
-    //   if (value !== val) { // se c'è stato un cambiamento (in entrambe le direzioni)
-    //     console.log('val', val);
-
-    //     if (val === null) {
-    //       // todo: come si patcha un null?
-    //     } else if (val === true) {
-    //       this.firstFormGroup.patchValue({ photo: val }, { emitEvent: false });
-    //     }
-    //   } else if (value === null && val === null) { // se s0 e s1 sono entrambi null
-    //   } else {
-    //     console.log("[ERROR]: non si dovrebbe verificare questo caso");
-    //   }
-    // }
-
   }
 
   onChangeRadioEsito(event: MatRadioChange) {
@@ -308,9 +229,9 @@ export class Tab2Page implements OnInit {
       }
 
       if (this.submitLabel === 'Paga e conferma') {
-        const totTarghe = this.store.getTotTarghe();
-        this.store.setTotTarghe(totTarghe - 1);
-        this.store.setLastMovement(-1);
+        const totTarghe = this.targheStore.getTotTarghe();
+        this.targheStore.setTotTarghe(totTarghe - 1);
+        this.targheStore.setLastMovement(-1);
       }
 
       this.router.navigateByUrl('tabs/tab1');

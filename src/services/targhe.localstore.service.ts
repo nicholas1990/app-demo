@@ -2,11 +2,9 @@ import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 
 @Injectable()
-export class StoreService {
+export class TargheStoreService {
 
-  /**
-   * é demo, non leggo dal localstorage, ma dal precedente set
-   */
+  constructor() { }
 
   getTotTarghe() {
     return JSON.parse(window.localStorage.getItem('totTarghe'));
@@ -23,7 +21,5 @@ export class StoreService {
     const ultimoMovimento = JSON.stringify(val);
     window.localStorage.setItem('ultimoMovimento', ultimoMovimento);
   }
-
-  constructor() { }
 
 }

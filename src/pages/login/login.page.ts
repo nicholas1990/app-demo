@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from './services/auth.service';
-import { StoreService } from '../../services/store.service';
+import { TargheStoreService } from '../../services/targhe.localstore.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: 'login.page.html',
   styleUrls: ['login.page.scss'],
   providers: [
-    StoreService
+    TargheStoreService
   ]
 })
 export class LoginPage implements OnInit {
@@ -20,7 +20,7 @@ export class LoginPage implements OnInit {
   constructor(
     private readonly fb: FormBuilder,
     private readonly authService: AuthService,
-    private readonly store: StoreService,
+    private readonly targheStore: TargheStoreService,
   ) {}
 
   ngOnInit() {
@@ -48,8 +48,8 @@ export class LoginPage implements OnInit {
         // }
 
         const TARGHE = 12;
-        this.store.setTotTarghe(TARGHE);
-        this.store.setLastMovement(TARGHE);
+        this.targheStore.setTotTarghe(TARGHE);
+        this.targheStore.setLastMovement(TARGHE);
 
       }
       catch (err) {

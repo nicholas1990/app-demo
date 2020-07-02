@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { StoreService } from '../../services/store.service';
+import { TargheStoreService } from '../../services/targhe.localstore.service';
 
 @Component({
   selector: 'app-tab3',
   templateUrl: 'tab3.page.html',
   styleUrls: ['tab3.page.scss'],
   providers: [
-    StoreService
+    TargheStoreService
   ]
 })
 export class Tab3Page {
@@ -15,29 +15,35 @@ export class Tab3Page {
   lastMove: number;
   labelLastMove: string;
 
-  constructor(private store: StoreService) { }
+  constructor(private readonly targheStore: TargheStoreService) { }
 
   ionViewWillEnter() {
-    this._initialize();
+    this._getAllTarghe();
   }
 
+  /**
+   * Al click su acquista, per una costante C = 10:
+   *  - recupero l'ammontare totale delle targhe;
+   *  - setto il nuovo totale, che è uguale al totale targhe + C;
+   *  - setto l'ultimo movimento, che è uguale a C.
+   *
+   * Recupero i valori dal localStorage e li salvo in variabili locali
+   */
   handleClickAcquista() {
-    const totTarghe = this.store.getTotTarghe();
-    this.store.setTotTarghe(totTarghe + 10);
-    this.store.setLastMovement(10);
+    const totTarghe = this.targheStore.getTotTarghe();
 
-    this._initialize();
+    this.targheStore.setTotTarghe(totTarghe + 10);
+    this.targheStore.setLastMovement(10);
+
+    this._getAllTarghe();
   }
 
-  private _initialize() {
-    // popolo il counter
-    this.counter = this.store.getTotTarghe();
+  private _getAllTarghe() {
+    const lastMovement = this.targheStore.getLastMovement();
 
-    // popolo l'ultimo movimento
-    const lastMove = this.store.getLastMovement();
-
-    this.lastMove = lastMove;
-    this.labelLastMove = lastMove > 0 ? `+${lastMove}` : `${lastMove}`;
+    this.counter = this.targheStore.getTotTarghe();
+    this.lastMove = lastMovement;
+    this.labelLastMove = lastMovement > 0 ? `+${lastMovement}` : `${lastMovement}`;
   }
 
 }

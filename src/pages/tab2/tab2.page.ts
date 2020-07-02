@@ -21,8 +21,8 @@ interface Radio {
   templateUrl: 'tab2.page.html',
   styleUrls: ['tab2.page.scss'],
   providers: [
-    TargheStoreService
-  ]
+    TargheStoreService,
+  ],
 })
 export class Tab2Page implements OnInit {
 
@@ -229,9 +229,11 @@ export class Tab2Page implements OnInit {
       }
 
       if (this.submitLabel === 'Paga e conferma') {
-        const totTarghe = this.targheStore.getTotTarghe();
-        this.targheStore.setTotTarghe(totTarghe - 1);
-        this.targheStore.setLastMovement(-1);
+        const ultimoTotTarghe = this.targheStore.getTotTarghe();
+        const totaleTarghe = ultimoTotTarghe - 1;
+
+        this.targheStore.setTotTarghe(totaleTarghe);
+        this.targheStore.setUltimoMovimento(-1);
       }
 
       this.router.navigateByUrl('tabs/tab1');

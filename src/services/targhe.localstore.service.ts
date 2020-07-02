@@ -18,7 +18,7 @@ export class TargheStoreService {
     const targhe = this._getItem('totTarghe');
     return JSON.parse(targhe);
   }
-  setTotTarghe(val: number) {
+  setTotTarghe(val: number): void {
     const totTarghe = JSON.stringify(val);
     this._setItem('totTarghe', totTarghe);
   }

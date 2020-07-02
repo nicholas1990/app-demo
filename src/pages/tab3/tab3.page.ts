@@ -30,16 +30,19 @@ export class Tab3Page {
    * Recupero i valori dal localStorage e li salvo in variabili locali
    */
   handleClickAcquista() {
-    const totTarghe = this.targheStore.getTotTarghe();
+    const ultimoTotTarghe = this.targheStore.getTotTarghe();
+    const totaleTarghe = ultimoTotTarghe + 10;
 
-    this.targheStore.setTotTarghe(totTarghe + 10);
-    this.targheStore.setLastMovement(10);
+    this.targheStore.setTotTarghe(totaleTarghe);
+    this.targheStore.setUltimoMovimento(10);
 
     this._getAllTarghe();
   }
 
+  private _setAllTarghe
+
   private _getAllTarghe() {
-    const lastMovement = this.targheStore.getLastMovement();
+    const lastMovement = this.targheStore.getUltimoMovimento();
 
     this.counter = this.targheStore.getTotTarghe();
     this.lastMove = lastMovement;

@@ -49,7 +49,7 @@ export class LoginPage implements OnInit {
 
         const TARGHE = 12;
         this.targheStore.setTotTarghe(TARGHE);
-        this.targheStore.setLastMovement(TARGHE);
+        this.targheStore.setUltimoMovimento(TARGHE);
 
       }
       catch (err) {

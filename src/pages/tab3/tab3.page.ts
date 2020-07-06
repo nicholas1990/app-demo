@@ -1,12 +1,22 @@
 import { Component } from '@angular/core';
-import { TargheStoreService } from '../../services/targhe.localstore.service';
+import { TargheService } from '../../services/targhe.service';
+import { Observable } from 'rxjs';
+
+/**
+ * Possibili movimenti sulle targhe.
+ */
+declare enum MovimentiTarghe {
+  ADD_1,
+  ADD_12,
+  MINUS_1
+}
 
 @Component({
   selector: 'app-tab3',
   templateUrl: 'tab3.page.html',
   styleUrls: ['tab3.page.scss'],
   providers: [
-    TargheStoreService
+    TargheService
   ]
 })
 export class Tab3Page {
@@ -15,7 +25,9 @@ export class Tab3Page {
   lastMove: number;
   labelLastMove: string;
 
-  constructor(private readonly targheStore: TargheStoreService) { }
+  counter$: Observable<any>;
+
+  constructor(private readonly targheStore: TargheService) { }
 
   ionViewWillEnter() {
     this._getAllTarghe();
@@ -30,23 +42,27 @@ export class Tab3Page {
    * Recupero i valori dal localStorage e li salvo in variabili locali
    */
   handleClickAcquista() {
-    const ultimoTotTarghe = this.targheStore.getTotTarghe();
-    const totaleTarghe = ultimoTotTarghe + 10;
+    // const ultimoTotTarghe = this.targheStore.getTotTarghe();
+    // const totaleTarghe = ultimoTotTarghe + 10;
 
-    this.targheStore.setTotTarghe(totaleTarghe);
-    this.targheStore.setUltimoMovimento(10);
+    // const totaleTarghe = this.targheStore.se(MovimentiTarghe.ADD_12);
+    // const ultimoMovimento = this.targheStore.calculateUltimoMovimento(MovimentiTarghe.ADD_12);
+
+    // this.targheStore.setTotTarghe(totaleTarghe);
+    // this.targheStore.setUltimoMovimento(ultimoMovimento);
+
+    this.targheStore.setTotTarghe(MovimentiTarghe.ADD_12);
 
     this._getAllTarghe();
   }
 
-  private _setAllTarghe
-
   private _getAllTarghe() {
-    const lastMovement = this.targheStore.getUltimoMovimento();
+    const totTarghe = this.targheStore.getTotTarghe();
+    const ultimoMovimento = this.targheStore.getUltimoMovimento();
 
-    this.counter = this.targheStore.getTotTarghe();
-    this.lastMove = lastMovement;
-    this.labelLastMove = lastMovement > 0 ? `+${lastMovement}` : `${lastMovement}`;
+    this.counter = totTarghe;
+    this.lastMove = ultimoMovimento;
+    this.labelLastMove = ultimoMovimento > 0 ? `+${ultimoMovimento}` : `${ultimoMovimento}`;
   }
 
 }

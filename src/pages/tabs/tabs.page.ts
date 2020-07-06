@@ -1,23 +1,23 @@
 import { Component } from '@angular/core';
-import { TargheStoreService } from '../../services/targhe.localstore.service';
+import { TargheService } from '../../services/targhe.service';
 
 @Component({
   selector: 'app-tabs',
   templateUrl: 'tabs.page.html',
   styleUrls: ['tabs.page.scss'],
   providers: [
-    TargheStoreService
+    TargheService
   ]
 })
 export class TabsPage {
 
   badgeContent: number;
 
-  constructor(private readonly targheStore: TargheStoreService) { }
+  constructor(private readonly targheService: TargheService) { }
 
   ionViewWillEnter() {
     // popolo il counter
-    this.badgeContent = this.targheStore.getTotTarghe();
+    this.badgeContent = this.targheService.getTotTarghe();
 
     // popolo l'ultimo movimento
   }

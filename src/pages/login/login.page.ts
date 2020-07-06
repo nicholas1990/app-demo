@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from './services/auth.service';
-import { TargheStoreService } from '../../services/targhe.localstore.service';
+import { TargheService } from '../../services/targhe.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: 'login.page.html',
   styleUrls: ['login.page.scss'],
   providers: [
-    TargheStoreService
+    TargheService
   ]
 })
 export class LoginPage implements OnInit {
@@ -20,7 +20,7 @@ export class LoginPage implements OnInit {
   constructor(
     private readonly fb: FormBuilder,
     private readonly authService: AuthService,
-    private readonly targheStore: TargheStoreService,
+    private readonly targheStore: TargheService,
   ) {}
 
   ngOnInit() {

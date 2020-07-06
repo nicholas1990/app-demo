@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
 import { Router } from '@angular/router';
 import { MatRadioChange } from '@angular/material/radio';
 
-import { TargheStoreService } from '../../services/targhe.localstore.service';
+import { TargheService } from '../../services/targhe.service';
 
 interface Select {
   value: string;
@@ -21,7 +21,7 @@ interface Radio {
   templateUrl: 'tab2.page.html',
   styleUrls: ['tab2.page.scss'],
   providers: [
-    TargheStoreService,
+    TargheService,
   ],
 })
 export class Tab2Page implements OnInit {
@@ -112,7 +112,7 @@ export class Tab2Page implements OnInit {
   constructor(
     private readonly fb: FormBuilder,
     private readonly router: Router,
-    private readonly targheStore: TargheStoreService,
+    private readonly targheStore: TargheService,
   ) {}
 
   ngOnInit(): void {
@@ -191,18 +191,11 @@ export class Tab2Page implements OnInit {
     }
   }
 
-  private info(str: string) {
-    console.log(str);
-  }
-
   setPhoto(event: Event, color?: string) {
     event.preventDefault();
 
-    const value = this.firstFormGroup.get('photo').value;
-    this.info(value);
-
+    // const value = this.firstFormGroup.get('photo').value;
     this.firstFormGroup.patchValue({ photo: true });
-
   }
 
   onChangeRadioEsito(event: MatRadioChange) {
@@ -229,11 +222,11 @@ export class Tab2Page implements OnInit {
       }
 
       if (this.submitLabel === 'Paga e conferma') {
-        const ultimoTotTarghe = this.targheStore.getTotTarghe();
-        const totaleTarghe = ultimoTotTarghe - 1;
+        // const ultimoTotTarghe = this.targheStore.getTotTarghe();
+        // const totaleTarghe = ultimoTotTarghe - 1;
 
-        this.targheStore.setTotTarghe(totaleTarghe);
-        this.targheStore.setUltimoMovimento(-1);
+        // this.targheStore.setTotTarghe(Tar);
+        // this.targheStore.setUltimoMovimento(-1);
       }
 
       this.router.navigateByUrl('tabs/tab1');

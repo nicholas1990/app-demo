@@ -11,6 +11,7 @@
  -->
 
 <ion-content [fullscreen]="true">
+
   <!-- NEW <form id="regForm" [formGroup]="registrationForm"> -->
     <!-- <form id="regForm" [formGroup]="registrationForm"> -->
   <mat-vertical-stepper #stepper [linear]="isLinear" (selectionChange)="onStepChange($event)">
@@ -239,7 +240,7 @@
     <mat-step [stepControl]="thirdFormGroup">
       <form [formGroup]="thirdFormGroup">
         <ng-template matStepLabel>Done</ng-template>
-        <p>You are now done.</p>
+        <p>Ci sono {{ totaleTarghe$ | async }} targhe residue.</p>
         <ion-grid>
           <ion-row>
             <ion-col class="md hydrated">
@@ -255,11 +256,14 @@
           </ion-row>
         </ion-grid>
         <div>
-          <button mat-raised-button (click)="onSubmit()" [hidden]="thirdFormGroup.value.esito === null">{{ submitLabel }}</button>
+          <!-- {{ thirdFormGroup.controls.esito.value | json }} -->
+          <button mat-raised-button color="primary" (click)="onSubmit($event)" [hidden]="thirdFormGroup.value.esito === null">{{ submitLabel }}</button>
+
           <button mat-button matStepperPrevious type="button" (click)="onMatStepperPrevious()">Back</button>
           <button mat-button (click)="stepper.reset()">Reset</button>
         </div>
       </form>
+
     </mat-step>
   </mat-vertical-stepper>
   

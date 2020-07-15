@@ -12,19 +12,7 @@ export class AuthService {
   authenticationState = new BehaviorSubject(false);
 
   // , private plt: Platform
-  constructor(private storage: Storage) {
-    // this.plt.ready().then(() => {
-    //   this.checkToken();
-    // });
-  }
-
-  // private checkToken() {
-  //   this.storage.get(TOKEN_KEY).then((res: string) => {
-  //     if (res) {
-  //       this.authenticationState.next(true);
-  //     }
-  //   });
-  // }
+  constructor(private storage: Storage) { }
 
   login(username: string, password: string) {
     return new Promise((resolve, reject) => {

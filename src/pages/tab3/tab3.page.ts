@@ -1,68 +1,57 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 import { TargheService } from '../../services/targhe.service';
-import { Observable } from 'rxjs';
-
-/**
- * Possibili movimenti sulle targhe.
- */
-declare enum MovimentiTarghe {
-  ADD_1,
-  ADD_12,
-  MINUS_1
-}
+import { MovimentiTarghe } from '../../enums/targhe.enum';
 
 @Component({
   selector: 'app-tab3',
   templateUrl: 'tab3.page.html',
   styleUrls: ['tab3.page.scss'],
-  providers: [
-    TargheService
-  ]
+  // providers: [
+  //   TargheService
+  // ]
 })
-export class Tab3Page {
+export class Tab3Page implements OnInit, OnDestroy {
 
   counter: number;
   lastMove: number;
   labelLastMove: string;
 
-  counter$: Observable<any>;
+  // counter$: Observable<number>;
+  subscription: Subscription;
 
-  constructor(private readonly targheStore: TargheService) { }
+  constructor(public targheService: TargheService) { }
+
+  ngOnInit() {
+    // this.counter$ = this.targheService.totaleTarghe$;
+  }
 
   ionViewWillEnter() {
-    this._getAllTarghe();
+
+    let ultimoMovimento = this.targheService.getUltimoMovimento();
+
+    this.subscription = this.targheService.totaleTarghe$.subscribe(
+      () => {
+        ultimoMovimento = this.targheService.getUltimoMovimento();
+        this.lastMove = ultimoMovimento;
+        this.labelLastMove = ultimoMovimento > 0 ? `+${ultimoMovimento}` : `${ultimoMovimento}`;
+      }
+    );
+
   }
 
   /**
-   * Al click su acquista, per una costante C = 10:
-   *  - recupero l'ammontare totale delle targhe;
-   *  - setto il nuovo totale, che è uguale al totale targhe + C;
-   *  - setto l'ultimo movimento, che è uguale a C.
-   *
-   * Recupero i valori dal localStorage e li salvo in variabili locali
+   * Al click su acquista:
+   *  - totale targhe += 10;
+   *  - ultimo movimento = 10.
    */
   handleClickAcquista() {
-    // const ultimoTotTarghe = this.targheStore.getTotTarghe();
-    // const totaleTarghe = ultimoTotTarghe + 10;
-
-    // const totaleTarghe = this.targheStore.se(MovimentiTarghe.ADD_12);
-    // const ultimoMovimento = this.targheStore.calculateUltimoMovimento(MovimentiTarghe.ADD_12);
-
-    // this.targheStore.setTotTarghe(totaleTarghe);
-    // this.targheStore.setUltimoMovimento(ultimoMovimento);
-
-    this.targheStore.setTotTarghe(MovimentiTarghe.ADD_12);
-
-    this._getAllTarghe();
+    this.targheService.setTarghe(MovimentiTarghe.ADD_10);
   }
 
-  private _getAllTarghe() {
-    const totTarghe = this.targheStore.getTotTarghe();
-    const ultimoMovimento = this.targheStore.getUltimoMovimento();
-
-    this.counter = totTarghe;
-    this.lastMove = ultimoMovimento;
-    this.labelLastMove = ultimoMovimento > 0 ? `+${ultimoMovimento}` : `${ultimoMovimento}`;
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
 }

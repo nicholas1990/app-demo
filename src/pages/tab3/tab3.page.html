@@ -19,7 +19,7 @@
         </ion-row>
         <ion-row align-items-center>
           <ion-col>
-            <div class="font-size-54 font-weight-300 line-height-1 counter-targhe"> {{ counter }} </div>
+            <div class="font-size-54 font-weight-300 line-height-1 counter-targhe"> {{ this.targheService.totaleTarghe$ | async }} </div>
           </ion-col>
         </ion-row>
         <ion-row align-items-center>
@@ -29,7 +29,7 @@
               <mat-icon 
                 [inline]="true" 
                 [color]="lastMove > 0 ? 'success' : 'warn'"
-              >{{ lastMove > 0 ? 'north' : 'south'}}</mat-icon>{{ labelLastMove }} dall'ultimo movimento
+              >{{ lastMove > 0 ? 'north' : 'south' }}</mat-icon>{{ labelLastMove }} dall'ultimo movimento
             </p>
           </ion-col>
         </ion-row>

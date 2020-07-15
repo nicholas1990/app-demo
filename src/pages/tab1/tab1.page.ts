@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { TargheService } from 'src/services/targhe.service';
+import { MovimentiTarghe } from '../../enums/targhe.enum';
+import { take } from 'rxjs/operators';
 
 export interface Impianto {
   firstGroup: {
@@ -37,13 +41,18 @@ export interface Impianto {
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss']
 })
-export class Tab1Page {
-
-  impianti: Impianto[];
+export class Tab1Page implements OnDestroy {
 
   hideBtn: boolean;  // hide btn scrollToBottom e scrollToTop.
 
-  constructor() { }
+  impianti: Impianto[];
+
+  subscription: Subscription;
+
+  constructor(protected readonly targheService: TargheService) {
+    // this.subscription = this.targheService.getTotTarghe$().subscribe((tot: number) => {
+    // });
+  }
 
   ionViewWillEnter() {
     if (window.localStorage.getItem('impianti') !== null) {
@@ -53,6 +62,10 @@ export class Tab1Page {
       this.impianti = [];
       this.hideBtn = true;
     }
+
+    this.subscription = this.targheService.totaleTarghe$.subscribe(() => {
+      take(1);
+    });
   }
 
   trackById(index: number, data: any): number {
@@ -69,6 +82,14 @@ export class Tab1Page {
 
   private getContent() {
     return document.querySelector('ion-content');
+  }
+
+  minusOne() {
+    this.targheService.setTarghe(MovimentiTarghe.MINUS_1);
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
 }

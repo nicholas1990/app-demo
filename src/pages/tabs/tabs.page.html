@@ -14,10 +14,16 @@
       <ion-label>Intervento</ion-label>
     </ion-tab-button>
 
+    <!-- {{ badgeContent | json }} -->
+
+    <!-- {{ totaleTarghe$ | async }} -->
+
     <ion-tab-button tab="tab3">
       <!-- <ion-icon name="square"></ion-icon> -->
-      <mat-icon matBadgeColor="primary" [matBadge]="badgeContent" matBadgeSize="small">accessibility</mat-icon>
-      <ion-label>Targhe</ion-label>
+      <ng-container *ngIf="totaleTarghe$ | async as totaleTarghe">
+        <mat-icon matBadgeColor="primary" [matBadge]="totaleTarghe" matBadgeSize="small">accessibility</mat-icon>
+        <ion-label>Targhe</ion-label>
+      </ng-container>
     </ion-tab-button>
 
     <ion-tab-button tab="tab4" disabled="true">

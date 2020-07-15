@@ -1,25 +1,28 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import { TargheService } from '../../services/targhe.service';
 
 @Component({
   selector: 'app-tabs',
   templateUrl: 'tabs.page.html',
   styleUrls: ['tabs.page.scss'],
-  providers: [
-    TargheService
-  ]
+  // providers: [
+  //   TargheService
+  // ]
 })
-export class TabsPage {
+export class TabsPage implements OnInit {
 
-  badgeContent: number;
+  badgeContent: number = null;
+  totaleTarghe$: Observable<number | null>;
 
-  constructor(private readonly targheService: TargheService) { }
+  constructor(
+    protected targheService: TargheService,
+    private cd: ChangeDetectorRef) { }
 
-  ionViewWillEnter() {
-    // popolo il counter
-    this.badgeContent = this.targheService.getTotTarghe();
-
-    // popolo l'ultimo movimento
+  ngOnInit() {
+    this.totaleTarghe$ = this.targheService.totaleTarghe$;
   }
+
+  ionViewWillEnter() { }
 
 }

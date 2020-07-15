@@ -1,92 +1,89 @@
 import { Injectable } from '@angular/core';
+import { LocalStorageService } from './common/localstorage.service';
+import { LocalStorageKeys } from './common/keys.enum';
 import { MovimentiTarghe } from '../enums/targhe.enum';
-// import { Storage } from '@ionic/storage';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 
-/**
- * Possibili movimenti sulle targhe.
- */
-// declare enum MovimentiTarghe {
-//   ADD_1,
-//   ADD_12,
-//   MINUS_1,
-// }
-
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class TargheService {
 
-  private _getItem(key: string): string {
-    return window.localStorage.getItem(key);
+  private _totaleTarghe: BehaviorSubject<number | null> = new BehaviorSubject(null);
+  public totaleTarghe$: Observable<number | null> = this._totaleTarghe.asObservable();
+
+  constructor(private readonly localStorageService: LocalStorageService) { }
+
+  getTotTarghe(): number {
+    const targheStored: string = this.localStorageService.getItem(LocalStorageKeys.totTarghe);
+    const targhe: number = JSON.parse(targheStored);
+    // this._totaleTarghe.next(targhe)
+    return targhe;
+  }
+  private setTotTarghe(totTargheCorrente: number): void {
+    const totTarghe: string = JSON.stringify(totTargheCorrente);
+    this.localStorageService.setItem(LocalStorageKeys.totTarghe, totTarghe);
+
+    // dopo aver fatto il set nel local storage, devo aggiornare l'observable
+    // fatto dopo il set
+
+    // this.totaleTarghe$.subscribe((tot: number) => {
+    //   console.log('dio service', tot);
+    // });
+
   }
 
-  private _setItem(key: string, value: string): void {
-    window.localStorage.setItem(key, value);
+  getUltimoMovimento(): number {
+    const ultimoMovimento: string = this.localStorageService.getItem(LocalStorageKeys.ultimoMovimento);
+    return JSON.parse(ultimoMovimento);
+  }
+  private setUltimoMovimento(nuovoMovimento: number): void {
+    const movimento: string = JSON.stringify(nuovoMovimento);
+    this.localStorageService.setItem(LocalStorageKeys.ultimoMovimento, movimento);
   }
 
-  constructor() { }
-
-  getTotTarghe() {
-    const targhe = this._getItem('totTarghe');
-    return JSON.parse(targhe);
-  }
   /**
-   * Calcola e salva nel localstorage il totale delle taghe.
+   * Calcola e salva i dati riguardanti le targhe.
    *
-   * @param movimento: MovimentiTarghe enum.
+   * @param movimento: configurazioni definite nel enum MovimentiTarghe.
+   * @param reset: boolean, se true il conteggio targhe parte da zero altrimenti recupera il totale stored.
    */
-  setTotTarghe(movimento: MovimentiTarghe): void {
-    const totTarghe = JSON.stringify(this.calculateTotTarghe(movimento));
-    this._setItem('totTarghe', totTarghe);
+  setTarghe(movimento: MovimentiTarghe, reset?: boolean): void {
+
+    const { totTargheCorrente, nuovoMovimento } = this.calcoliTarghe(movimento, reset);
+
+    this.setTotTarghe(totTargheCorrente);
+    this.setUltimoMovimento(nuovoMovimento);
+
+    this._totaleTarghe.next(totTargheCorrente);
+
   }
 
-  private calculateTotTarghe(movimento: MovimentiTarghe): number {
-    debugger;
-    let totTargheCorrente: number = this.getTotTarghe();
+  /**
+   * Calcola il totale delle taghe e l'ultimo movimento effettuato.
+   */
+  private calcoliTarghe(movimento: MovimentiTarghe, reset: boolean = false) {
+
+    let totTargheCorrente: number = !reset ? this.getTotTarghe() : 0;
+    let nuovoMovimento: number;
 
     switch (movimento) {
-      case MovimentiTarghe.ADD_1:
-        ++totTargheCorrente;
+      case MovimentiTarghe.ADD_10:
+        totTargheCorrente += 10;
+        nuovoMovimento = 10;
         break;
       case MovimentiTarghe.ADD_12:
         totTargheCorrente += 12;
+        nuovoMovimento = 12;
         break;
       case MovimentiTarghe.MINUS_1:
-        --totTargheCorrente;
+        totTargheCorrente -= 1;
+        nuovoMovimento = -1;
         break;
     }
 
-    debugger;
-
-    return totTargheCorrente;
-  }
-
-  getUltimoMovimento() {
-    const ultimoMovimento = this._getItem('ultimoMovimento');
-    return JSON.parse(ultimoMovimento);
-  }
-  setUltimoMovimento(val: number) {
-    const ultimoMovimento = JSON.stringify(val);
-    this._setItem('ultimoMovimento', ultimoMovimento);
-  }
-
-  calculateUltimoMovimento(movimento: MovimentiTarghe) {
-    // let totTargheCorrente: number = this.getTotTarghe();
-    let ultimoMovimento: number;
-
-    switch (movimento) {
-      case MovimentiTarghe.ADD_1:
-        ultimoMovimento = 1;
-        break;
-      case MovimentiTarghe.ADD_12:
-        ultimoMovimento = 12;
-        break;
-      case MovimentiTarghe.MINUS_1:
-        ultimoMovimento = -1;
-        break;
-    }
-
-    debugger;
-
-    return ultimoMovimento;
+    return { totTargheCorrente, nuovoMovimento };
   }
 
 }
